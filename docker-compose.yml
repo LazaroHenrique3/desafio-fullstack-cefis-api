@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  db-mysql:
+    image: mysql:latest
+    environment:
+        MYSQL_ROOT_PASSWORD: rootpassword
+        MYSQL_DATABASE: cefis_api
+        MYSQL_USER: mysqluser
+        MYSQL_PASSWORD: mysqlpassword
+    ports:
+      - "3306:3306"
+    container_name: "db-mysql"
+    restart: always
+    volumes:
+      - ./mysql-database:/var/lib/mysql
+volumes:
+  mysql-database:
