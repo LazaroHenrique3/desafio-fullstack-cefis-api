@@ -9,3 +9,52 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id       Int        @id @default(autoincrement())
+  name     String
+  role     Role
+  Course   Course[]
+  Question Question[]
+
+  @@map("user")
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+}
+
+model Course {
+  id        Int        @id @default(autoincrement())
+  teacherId Int
+  teacher   User       @relation(fields: [teacherId], references: [id])
+  title     String
+  duration  Int        @db.UnsignedInt
+  userId    Int
+  Question  Question[]
+
+  @@map("course")
+}
+
+model Question {
+  id            Int        @id @default(autoincrement())
+  courseId      Int
+  studentId     Int
+  course        Course     @relation(fields: [courseId], references: [id])
+  student       User       @relation(fields: [studentId], references: [id])
+  question_text String     @db.Text
+  userId        Int
+  Response      Response[]
+
+  @@map("question")
+}
+
+model Response {
+  id            Int      @id @default(autoincrement())
+  questionId    Int
+  question      Question @relation(fields: [questionId], references: [id])
+  response_text String   @db.Text
+
+  @@map("response")
+}
