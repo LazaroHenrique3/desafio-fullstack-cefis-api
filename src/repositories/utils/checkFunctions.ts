@@ -9,3 +9,14 @@ export const checkIfUserExists = async (idUser: number) => {
 
     return recordExists !== null
 }
+
+export const checkIfCourseExists = async (idCourse: number) => {
+    const recordExists = await prisma.course.findUnique({
+        where: {
+            id: idCourse
+        }
+    })
+
+    return recordExists !== null
+}
+
