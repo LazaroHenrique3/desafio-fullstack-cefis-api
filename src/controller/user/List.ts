@@ -1,17 +1,29 @@
 import { Request, Response } from 'express'
+import * as yup from 'yup'
 
 import { DefaultQueryParams } from '.././constants/DefaultQueryParams'
 import { ListUserService } from '../.././services/userServices/ListUserService'
 import { CountUserService } from '../.././services/userServices/CountUserService'
 import { UserRepository } from '../../repositories/UserRepository'
+import { validation } from '../../middlewares/Validation'
 
 //Validando os query Params
 interface IQueryProps {
-    page: number,
-    limit: number,
-    filter: string,
-    orderBy: 'asc' | 'desc'
+    page?: number,
+    limit?: number,
+    filter?: string,
+    orderBy?: 'asc' | 'desc'
 }
+
+//Midleware
+export const listUserValidation = validation((getSchema) => ({
+    query: getSchema<IQueryProps>(yup.object().shape({
+        page: yup.number().optional().moreThan(0),
+        limit: yup.number().optional().moreThan(0),
+        filter: yup.string().optional(),
+        orderBy: yup.string().oneOf(['asc', 'desc']).optional()
+    }))
+}))
 
 export const listUser = async (request: Request<{}, {}, {}, IQueryProps>, response: Response) => {
     const { page, limit, filter, orderBy } = request.query
