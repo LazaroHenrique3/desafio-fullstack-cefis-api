@@ -1,12 +1,20 @@
 import { Request, Response } from 'express'
+import * as yup from 'yup'
 
 import { GetUserByIdService } from '../../services/userServices/GetUserById'
 import { UserRepository } from '../../repositories/UserRepository'
+import { validation } from '../../middlewares/Validation'
 
 //Para tipar os params do request
 interface IParamProps {
     idUser?: number
 }
+
+export const getUserByIdValidation = validation((getSchema) => ({
+    params: getSchema<IParamProps>(yup.object().shape({
+        idUser: yup.number().integer().required().moreThan(0),
+    })),
+}))
 
 export const getUserById = async (request: Request<IParamProps>, response: Response) => {
     const { idUser } = request.params
