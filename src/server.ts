@@ -2,6 +2,9 @@ import 'dotenv/config'
 import Express from 'express'
 import cors from 'cors'
 
+//Traduções das validações do Yup
+import './externalServices/TranslationsYup'
+
 import { routes } from './routes/routes'
 
 const app = Express()
