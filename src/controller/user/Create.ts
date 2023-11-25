@@ -1,17 +1,27 @@
 import { Request, Response } from 'express'
+import * as yup from 'yup'
 import { User } from '@prisma/client'
 
 import { CreateUserService } from '../../services/userServices/CreateUserService'
 import { UserRepository } from '../../repositories/UserRepository'
+import { validation } from '../../middlewares/Validation'
 
 //Para tipar o body do request
 interface IBodyProps extends Omit<User, 'id'> { }
+
+//Midleware
+export const createUserValidation = validation((getSchema) => ({
+    body: getSchema<IBodyProps>(yup.object().shape({
+        name: yup.string().required(),
+        role: yup.string().oneOf(['STUDENT', 'TEACHER']).required()
+    }))
+}))
 
 export const createUser = async (request: Request<{}, {}, IBodyProps>, response: Response) => {
     const { name, role } = request.body
 
     const createUser = new CreateUserService(new UserRepository())
-    const resultUser = await createUser.execute(name, role as 'STUDENT' | 'TEACHER')
+    const resultUser = await createUser.execute(String(name), role as 'STUDENT' | 'TEACHER')
 
     if (resultUser instanceof Error) {
         return response.status(500).json({
