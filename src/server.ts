@@ -2,7 +2,7 @@ import 'dotenv/config'
 import Express from 'express'
 import cors from 'cors'
 
-import { routes } from './routes'
+import { routes } from './routes/routes'
 
 const app = Express()
 
