@@ -1,22 +1,35 @@
 import { Request, Response } from 'express'
+import * as yup from 'yup'
 
 import { DefaultQueryParams } from '.././constants/DefaultQueryParams'
 import { ListQuestionByIdCourseService } from '../.././services/questionServices/ListQuestionByIdCourseService'
 import { CountQuestionService } from '../.././services/questionServices/CountQuestionService'
-
 import { QuestionRepository } from '../../repositories/QuestionRepository'
+import { validation } from '../../middlewares/Validation'
 
 //Validando os query Params
 interface IQueryProps {
-    page: number,
-    limit: number,
-    orderBy: 'asc' | 'desc',
+    page?: number,
+    limit?: number,
+    orderBy?: 'asc' | 'desc',
 }
 
 //Para tipar os params do request
 interface IParamProps {
-    idCourse: number
+    idCourse?: number
 }
+
+//Midleware
+export const listQuestionsByIdCourseValidation = validation((getSchema) => ({
+    params: getSchema<IParamProps>(yup.object().shape({
+        idCourse: yup.number().integer().required().moreThan(0),
+    })),
+    query: getSchema<IQueryProps>(yup.object().shape({
+        page: yup.number().optional().moreThan(0),
+        limit: yup.number().optional().moreThan(0),
+        orderBy: yup.string().oneOf(['asc', 'desc']).optional()
+    }))
+}))
 
 export const ListQuestionsByIdCourse = async (request: Request<IParamProps, {}, {}, IQueryProps>, response: Response) => {
     const { page, limit, orderBy } = request.query
