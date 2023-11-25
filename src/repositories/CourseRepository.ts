@@ -6,6 +6,7 @@ import { checkIfCourseExists } from './utils/checkFunctions'
 class CourseRepository implements ICourseRepository {
 
     public async create(title: string, duration: number, teacherId: number): Promise<Course | Error> {
+
         try {
             const newCourse = await prisma.course.create({
                 data: {
