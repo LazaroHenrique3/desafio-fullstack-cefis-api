@@ -34,12 +34,12 @@ export const listUser = async (request: Request<{}, {}, {}, IQueryProps>, respon
     const resultUsers = await listUsers.execute(
         Number(page) || DefaultQueryParams.DEFAULT_PAGE, 
         Number(limit) || DefaultQueryParams.DEFAULT_LIMIT, 
-        String(filter) || DefaultQueryParams.DEFAULT_FILTER, 
-        String(orderBy) as 'asc' | 'desc' || DefaultQueryParams.DEFAULT_ORDER_BY
+        filter || DefaultQueryParams.DEFAULT_FILTER, 
+        orderBy as 'asc' | 'desc' || DefaultQueryParams.DEFAULT_ORDER_BY
     )
 
     const resultCountUsers = await  countUsers.execute(
-        String(filter) || DefaultQueryParams.DEFAULT_FILTER
+        filter || DefaultQueryParams.DEFAULT_FILTER
     )
 
     if(resultUsers instanceof Error){
