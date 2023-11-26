@@ -41,7 +41,7 @@ export const ListQuestionsByIdCourse = async (request: Request<IParamProps, {}, 
     const resultQuestions = await listQuestions.execute(
         Number(page) || DefaultQueryParams.DEFAULT_PAGE, 
         Number(limit) || DefaultQueryParams.DEFAULT_LIMIT, 
-        orderBy as 'asc' | 'desc' || DefaultQueryParams.DEFAULT_ORDER_BY,
+        String(orderBy) as 'asc' | 'desc' || DefaultQueryParams.DEFAULT_ORDER_BY,
         Number(idCourse)
     )
 
