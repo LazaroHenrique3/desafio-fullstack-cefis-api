@@ -22,7 +22,7 @@ export const createCourse = async (request: Request<{}, {}, IBodyProps>, respons
     const { title, duration, teacherId } = request.body
 
     const createCourse = new CreateCourseService(new CourseRepository())
-    const resultCourse = await createCourse.execute(String(title), duration, teacherId)
+    const resultCourse = await createCourse.execute(String(title), Number(duration), Number(teacherId))
 
     if (resultCourse instanceof Error) {
         return response.status(500).json({
