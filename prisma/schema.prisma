@@ -6,23 +6,18 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:.././database.sqlite"
 }
 
 model User {
   id       Int        @id @default(autoincrement())
   name     String
-  role     Role
+  role     String
   Course   Course[]
   Question Question[]
 
   @@map("user")
-}
-
-enum Role {
-  STUDENT
-  TEACHER
 }
 
 model Course {
@@ -30,8 +25,7 @@ model Course {
   teacherId Int
   teacher   User       @relation(fields: [teacherId], references: [id])
   title     String
-  duration  Int        @db.UnsignedInt
-  userId    Int
+  duration  Int
   Question  Question[]
 
   @@map("course")
@@ -39,12 +33,11 @@ model Course {
 
 model Question {
   id            Int        @id @default(autoincrement())
-  courseId      Int
-  studentId     Int
-  course        Course     @relation(fields: [courseId], references: [id])
-  student       User       @relation(fields: [studentId], references: [id])
-  question_text String     @db.Text
-  userId        Int
+  idCourse      Int
+  idStudent     Int
+  course        Course     @relation(fields: [idCourse], references: [id])
+  student       User       @relation(fields: [idStudent], references: [id])
+  question_text String
   Response      Response[]
 
   @@map("question")
@@ -52,9 +45,9 @@ model Question {
 
 model Response {
   id            Int      @id @default(autoincrement())
-  questionId    Int
-  question      Question @relation(fields: [questionId], references: [id])
-  response_text String   @db.Text
+  idQuestion    Int
+  question      Question @relation(fields: [idQuestion], references: [id])
+  response_text String
 
   @@map("response")
 }
