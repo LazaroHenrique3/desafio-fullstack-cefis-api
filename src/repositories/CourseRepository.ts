@@ -1,12 +1,10 @@
 import { Course } from '@prisma/client'
 import { ICourseRepository } from '../interfaces/ICourseRepository'
 import { prisma } from '../database/PrismaClientInstance'
-import { checkIfCourseExists } from './utils/checkFunctions'
 
 class CourseRepository implements ICourseRepository {
 
     public async create(title: string, duration: number, teacherId: number): Promise<Course | Error> {
-
         try {
             const newCourse = await prisma.course.create({
                 data: {
@@ -77,11 +75,8 @@ class CourseRepository implements ICourseRepository {
         }
     }
 
-    public async delete(idCourse: number): Promise<void | null | Error> {
+    public async delete(idCourse: number): Promise<void | Error> {
         try {
-            const idExists = await checkIfCourseExists(idCourse)
-            if (!idExists) return null
-
             await prisma.course.delete({
                 where: {
                     id: idCourse
@@ -95,11 +90,8 @@ class CourseRepository implements ICourseRepository {
         }
     }
 
-    public async update(idCourse: number, title: string, duration: number): Promise<Course | null | Error> {
+    public async update(idCourse: number, title: string, duration: number): Promise<Course | Error> {
         try {
-            const idExists = await checkIfCourseExists(idCourse)
-            if (!idExists) return null
-
             const updatedCourse = await prisma.course.update({
                 where: {
                     id: idCourse

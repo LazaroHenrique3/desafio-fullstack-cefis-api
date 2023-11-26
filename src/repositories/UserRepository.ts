@@ -1,7 +1,6 @@
 import { User } from '@prisma/client'
 import { IUserRepository } from '../interfaces/IUserRepository'
 import { prisma } from '../database/PrismaClientInstance'
-import { checkIfUserExists } from './utils/checkFunctions'
 
 class UserRepository implements IUserRepository {
 
@@ -75,11 +74,8 @@ class UserRepository implements IUserRepository {
         }
     }
 
-    public async delete(idUser: number): Promise<void | null | Error> {
+    public async delete(idUser: number): Promise<void | Error> {
         try {
-            const idExists = await checkIfUserExists(idUser)
-            if (!idExists) return null
-
             await prisma.user.delete({
                 where: {
                     id: idUser
@@ -93,11 +89,8 @@ class UserRepository implements IUserRepository {
         }
     }
 
-    public async update(idUser: number, name: string): Promise<User | null | Error> {
+    public async update(idUser: number, name: string): Promise<User | Error> {
         try {
-            const idExists = await checkIfUserExists(idUser)
-            if (!idExists) return null
-
             const updatedUser = await prisma.user.update({
                 where: {
                     id: idUser

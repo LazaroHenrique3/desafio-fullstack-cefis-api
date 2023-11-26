@@ -1,7 +1,6 @@
 import { Response } from '@prisma/client'
 import { IResponseRepository } from '../interfaces/IResponseRepository'
 import { prisma } from '../database/PrismaClientInstance'
-import { checkIfResponseExists } from './utils/checkFunctions'
 
 class ResponseRepository implements IResponseRepository {
 
@@ -53,60 +52,6 @@ class ResponseRepository implements IResponseRepository {
         } catch (error) {
             console.error(error)
             return new Error('Erro ao receber quantidade de registros.')
-        }
-    }
-
-    public async getById(idResponse: number): Promise<Response | null | Error> {
-        try {
-            const response = await prisma.response.findUnique({
-                where: {
-                    id: idResponse
-                }
-            })
-
-            return response
-        } catch (error) {
-            console.error(error)
-            return new Error('Erro ao buscar registro.')
-        }
-    }
-
-    public async delete(idResponse: number): Promise<void | null | Error> {
-        try {
-            const idExists = await checkIfResponseExists(idResponse)
-            if (!idExists) return null
-
-            await prisma.response.delete({
-                where: {
-                    id: idResponse
-                }
-            })
-
-
-        } catch (error) {
-            console.error(error)
-            return new Error('Erro ao excluir registro.')
-        }
-    }
-
-    public async update(idResponse: number, textResponse: string): Promise<Response | null | Error> {
-        try {
-            const idExists = await checkIfResponseExists(idResponse)
-            if (!idExists) return null
-
-            const updatedResponse = await prisma.response.update({
-                where: {
-                    id: idResponse
-                },
-                data: {
-                    response_text: textResponse
-                }
-            })
-
-            return updatedResponse
-        } catch (error) {
-            console.error(error)
-            return new Error('Erro ao atualizar registro.')
         }
     }
 
