@@ -9,18 +9,28 @@ import { validation } from '../../middlewares/Validation'
 //Para tipar o body do request
 interface IBodyProps extends Omit<IResponse, 'id'> { }
 
+//Para tipar os params do request
+interface IParamProps {
+    idTeacher?: number
+}
+
+//Middleware
 export const createResponseValidation = validation((getSchema) => ({
+    params: getSchema<IParamProps>(yup.object().shape({
+        idTeacher: yup.number().integer().required().moreThan(0),
+    })),
     body: getSchema<IBodyProps>(yup.object().shape({
         response_text: yup.string().required(),
         idQuestion: yup.number().integer().required().moreThan(0),
     }))
 }))
 
-export const createResponse = async (request: Request<{}, {}, IBodyProps>, response: Response) => {
+export const createResponse = async (request: Request<IParamProps, {}, IBodyProps>, response: Response) => {
     const { idQuestion, response_text } = request.body
+    const { idTeacher } = request.params
 
     const createResponse = new CreateResponseService(new ResponseRepository())
-    const resultResponse = await createResponse.execute(String(response_text), idQuestion)
+    const resultResponse = await createResponse.execute(String(response_text), Number(idQuestion), Number(idTeacher))
 
     if (resultResponse instanceof Error) {
         return response.status(500).json({
