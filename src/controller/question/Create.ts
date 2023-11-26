@@ -5,6 +5,7 @@ import { Question } from '@prisma/client'
 import { CreateQuestionService } from '../../services/questionServices/CreateQuestionService'
 import { QuestionRepository } from '../../repositories/QuestionRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Para tipar o body do request
 interface IBodyProps extends Omit<Question, 'id'> { }
@@ -24,8 +25,8 @@ export const createQuestion = async (request: Request<{}, {}, IBodyProps>, respo
     const createQuestion = new CreateQuestionService(new QuestionRepository())
     const resultQuestion = await createQuestion.execute(String(question_text), Number(idCourse), Number(idStudent))
 
-    if (resultQuestion instanceof Error) {
-        return response.status(500).json({
+    if (resultQuestion instanceof CustomError) {
+        return response.status(resultQuestion.status).json({
             errors: { default: resultQuestion.message }
         })
     }

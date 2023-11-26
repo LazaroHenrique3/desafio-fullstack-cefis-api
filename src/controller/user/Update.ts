@@ -5,6 +5,7 @@ import { User } from '@prisma/client'
 import { UpdateUserService } from '../../services/userServices/UpdateUserService'
 import { UserRepository } from '../../repositories/UserRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Para tipar o body do request
 interface IBodyProps extends Omit<User, 'id'> { }
@@ -32,8 +33,8 @@ export const updateUser = async (request: Request<IParamProps, {}, IBodyProps>, 
     const updateUser = new UpdateUserService(new UserRepository())
     const resultUpdateUser = await updateUser.execute(Number(idUser), String(name))
 
-    if(resultUpdateUser instanceof Error){
-        return response.status(500).json({
+    if(resultUpdateUser instanceof CustomError){
+        return response.status(resultUpdateUser.status).json({
             errors: { default: resultUpdateUser.message }
         })
     } 

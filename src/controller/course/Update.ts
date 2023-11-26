@@ -5,6 +5,7 @@ import { Course } from '@prisma/client'
 import { UpdateCourseService } from '../../services/courseServices/UpdateCourseService'
 import { CourseRepository } from '../../repositories/CourseRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Para tipar o body do request
 interface IBodyProps extends Omit<Course, 'id' | 'teacherId'> { }
@@ -31,8 +32,8 @@ export const updateCourse = async (request: Request<IParamProps, {}, IBodyProps>
     const updateCourse = new UpdateCourseService(new CourseRepository())
     const resultUpdateCourse = await updateCourse.execute(Number(idCourse), String(title), Number(duration))
 
-    if(resultUpdateCourse instanceof Error){
-        return response.status(500).json({
+    if(resultUpdateCourse instanceof CustomError){
+        return response.status(resultUpdateCourse.status).json({
             errors: { default: resultUpdateCourse.message }
         })
     } 

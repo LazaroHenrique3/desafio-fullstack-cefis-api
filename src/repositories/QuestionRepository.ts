@@ -1,10 +1,11 @@
 import { Question } from '@prisma/client'
 import { IQuestionRepository } from '../interfaces/IQuestionRepository'
 import { prisma } from '../database/PrismaClientInstance'
+import { CustomError } from '../errors/CustomErrors'
 
 class QuestionRepository implements IQuestionRepository {
 
-    public async create(questionText: string, idCourse: number, idStudent: number): Promise<Question | Error> {
+    public async create(questionText: string, idCourse: number, idStudent: number): Promise<Question | CustomError> {
         try {
             const newQuestion = await prisma.question.create({
                 data: {
@@ -17,11 +18,11 @@ class QuestionRepository implements IQuestionRepository {
             return newQuestion
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao criar registro.')
+            return new CustomError('Erro ao criar registro.')
         }
     }
 
-    public async listByIdCourse(page: number, limit: number, orderBy: 'asc' | 'desc', idCourse: number): Promise<Question[] | Error> {
+    public async listByIdCourse(page: number, limit: number, orderBy: 'asc' | 'desc', idCourse: number): Promise<Question[] | CustomError> {
         try {
             const questions = await prisma.question.findMany({
                 skip: (page - 1) * limit,
@@ -37,11 +38,11 @@ class QuestionRepository implements IQuestionRepository {
             return questions
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao listar registro.')
+            return new CustomError('Erro ao listar registro.')
         }
     }
 
-    public async count(idCourse: number): Promise<number | Error> {
+    public async count(idCourse: number): Promise<number | CustomError> {
         try {
             const countOfQuestions = await prisma.question.count({
                 where: {
@@ -52,7 +53,7 @@ class QuestionRepository implements IQuestionRepository {
             return countOfQuestions
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao receber quantidade de registros.')
+            return new CustomError('Erro ao receber quantidade de registros.')
         }
     }
 

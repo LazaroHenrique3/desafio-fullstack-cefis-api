@@ -4,6 +4,7 @@ import * as yup from 'yup'
 import { GetCourseByIdService } from '../../services/courseServices/GetCourseById'
 import { CourseRepository } from '../../repositories/CourseRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Para tipar os params do request
 interface IParamProps {
@@ -22,8 +23,8 @@ export const getCourseById = async (request: Request<IParamProps>, response: Res
     const getCourseById = new GetCourseByIdService(new CourseRepository())
     const resultGetCourseById = await getCourseById.execute(Number(idCourse))
 
-    if (resultGetCourseById instanceof Error) {
-        return response.status(500).json({
+    if (resultGetCourseById instanceof CustomError) {
+        return response.status(resultGetCourseById.status).json({
             errors: { default: resultGetCourseById.message }
         })
     } else if (resultGetCourseById === null || resultGetCourseById === undefined) {

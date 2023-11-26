@@ -1,5 +1,6 @@
 import { ICourseRepository } from '../../interfaces/ICourseRepository'
 import { checkIfUserExistsAndIsTeacher } from '../utils/checkFunctions'
+import { CustomError } from '../../errors/CustomErrors'
 
 class CreateCourseService {
     constructor (private CourseRepository: ICourseRepository) { }
@@ -8,7 +9,7 @@ class CreateCourseService {
         //Verificando se o professor existe e realmente é professor
         const teacherExists = await checkIfUserExistsAndIsTeacher(teacherId)
         if(!teacherExists){
-            return new Error('Professor não encontrado ou este usuário não é um professor.')
+            return new CustomError('Professor não encontrado ou este usuário não é um professor.', 404)
         }
 
         const newCourse = await this.CourseRepository.create(title, duration, teacherId)

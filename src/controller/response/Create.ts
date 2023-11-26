@@ -5,6 +5,7 @@ import { Response as IResponse } from '@prisma/client'
 import { CreateResponseService } from '../../services/responseServices/CreateResponseService'
 import { ResponseRepository } from '../../repositories/ResponseRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Para tipar o body do request
 interface IBodyProps extends Omit<IResponse, 'id'> { }
@@ -32,8 +33,8 @@ export const createResponse = async (request: Request<IParamProps, {}, IBodyProp
     const createResponse = new CreateResponseService(new ResponseRepository())
     const resultResponse = await createResponse.execute(String(response_text), Number(idQuestion), Number(idTeacher))
 
-    if (resultResponse instanceof Error) {
-        return response.status(500).json({
+    if (resultResponse instanceof CustomError) {
+        return response.status(resultResponse.status).json({
             errors: { default: resultResponse.message }
         })
     }

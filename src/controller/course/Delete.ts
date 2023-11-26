@@ -4,6 +4,7 @@ import * as yup from 'yup'
 import { DeleteCourseService } from '../../services/courseServices/DeleteCourseService'
 import { CourseRepository } from '../../repositories/CourseRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Para tipar os params do request
 interface IParamProps {
@@ -22,8 +23,8 @@ export const deleteCourse = async (request: Request<IParamProps>, response: Resp
     const deleteCourse = new DeleteCourseService(new CourseRepository())
     const resultDeleteCourse = await deleteCourse.execute(Number(idCourse))
 
-    if(resultDeleteCourse instanceof Error){
-        return response.status(500).json({
+    if(resultDeleteCourse instanceof CustomError){
+        return response.status(resultDeleteCourse.status).json({
             errors: { default: resultDeleteCourse.message }
         })
     } 

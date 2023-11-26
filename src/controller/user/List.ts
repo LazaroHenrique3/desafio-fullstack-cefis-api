@@ -6,6 +6,7 @@ import { ListUserService } from '../.././services/userServices/ListUserService'
 import { CountUserService } from '../.././services/userServices/CountUserService'
 import { UserRepository } from '../../repositories/UserRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Validando os query Params
 interface IQueryProps {
@@ -42,12 +43,12 @@ export const listUser = async (request: Request<{}, {}, {}, IQueryProps>, respon
         filter || DefaultQueryParams.DEFAULT_FILTER
     )
 
-    if(resultUsers instanceof Error){
-        return response.status(500).json({
+    if(resultUsers instanceof CustomError){
+        return response.status(resultUsers.status).json({
             errors: { default: resultUsers.message }
         })
-    } else if (resultCountUsers instanceof Error) {
-        return response.status(500).json({
+    } else if (resultCountUsers instanceof CustomError) {
+        return response.status(resultCountUsers.status).json({
             errors: { default: resultCountUsers.message }
         })
     }

@@ -1,10 +1,11 @@
 import { Response } from '@prisma/client'
 import { IResponseRepository } from '../interfaces/IResponseRepository'
 import { prisma } from '../database/PrismaClientInstance'
+import { CustomError } from '../errors/CustomErrors'
 
 class ResponseRepository implements IResponseRepository {
 
-    public async create(responseText: string, idQuestion: number): Promise<Response | Error> {
+    public async create(responseText: string, idQuestion: number): Promise<Response | CustomError> {
         try {
             const newResponse = await prisma.response.create({
                 data: {
@@ -16,11 +17,11 @@ class ResponseRepository implements IResponseRepository {
             return newResponse
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao criar registro.')
+            return new CustomError('Erro ao criar registro.')
         }
     }
 
-    public async listByIdQuestion(page: number, limit: number, orderBy: 'asc' | 'desc', idQuestion: number): Promise<Response[] | Error> {
+    public async listByIdQuestion(page: number, limit: number, orderBy: 'asc' | 'desc', idQuestion: number): Promise<Response[] | CustomError> {
         try {
             const responses = await prisma.response.findMany({
                 skip: (page - 1) * limit,
@@ -36,11 +37,11 @@ class ResponseRepository implements IResponseRepository {
             return responses
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao listar registro.')
+            return new CustomError('Erro ao listar registro.')
         }
     }
 
-    public async count(idQuestion: number): Promise<number | Error> {
+    public async count(idQuestion: number): Promise<number | CustomError> {
         try {
             const countOfResponses = await prisma.response.count({
                 where: {
@@ -51,7 +52,7 @@ class ResponseRepository implements IResponseRepository {
             return countOfResponses
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao receber quantidade de registros.')
+            return new CustomError('Erro ao receber quantidade de registros.')
         }
     }
 

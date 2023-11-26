@@ -1,5 +1,6 @@
 import { IUserRepository } from '../../interfaces/IUserRepository'
 import { checkIfUserExists } from '../utils/checkFunctions'
+import { CustomError } from '../../errors/CustomErrors'
 
 class UpdateUserService {
     constructor(private UserRepository: IUserRepository) { }
@@ -8,7 +9,7 @@ class UpdateUserService {
         //Verificando se o user existe
         const userExists = await checkIfUserExists(idUser)
         if (!userExists) {
-            return new Error('Usuário não encontrado.')
+            return new CustomError('Usuário não encontrado.', 404)
         }
 
         const updatedUser = await this.UserRepository.update(idUser, name)

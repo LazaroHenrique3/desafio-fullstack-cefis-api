@@ -5,6 +5,7 @@ import { User } from '@prisma/client'
 import { CreateUserService } from '../../services/userServices/CreateUserService'
 import { UserRepository } from '../../repositories/UserRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Para tipar o body do request
 interface IBodyProps extends Omit<User, 'id'> { }
@@ -23,8 +24,8 @@ export const createUser = async (request: Request<{}, {}, IBodyProps>, response:
     const createUser = new CreateUserService(new UserRepository())
     const resultUser = await createUser.execute(String(name), String(role) as 'STUDENT' | 'TEACHER')
 
-    if (resultUser instanceof Error) {
-        return response.status(500).json({
+    if (resultUser instanceof CustomError) {
+        return response.status(resultUser.status).json({
             errors: { default: resultUser.message }
         })
     }

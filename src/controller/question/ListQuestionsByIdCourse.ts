@@ -6,6 +6,7 @@ import { ListQuestionByIdCourseService } from '../.././services/questionServices
 import { CountQuestionService } from '../.././services/questionServices/CountQuestionService'
 import { QuestionRepository } from '../../repositories/QuestionRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Validando os query Params
 interface IQueryProps {
@@ -49,12 +50,12 @@ export const ListQuestionsByIdCourse = async (request: Request<IParamProps, {}, 
         Number(idCourse)
     )
 
-    if(resultQuestions instanceof Error){
-        return response.status(500).json({
+    if(resultQuestions instanceof CustomError){
+        return response.status(resultQuestions.status).json({
             errors: { default: resultQuestions.message }
         })
-    } else if (resultCountQuestions instanceof Error) {
-        return response.status(500).json({
+    } else if (resultCountQuestions instanceof CustomError) {
+        return response.status(resultCountQuestions.status).json({
             errors: { default: resultCountQuestions.message }
         })
     }

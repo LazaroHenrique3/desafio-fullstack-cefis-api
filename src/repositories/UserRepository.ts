@@ -1,10 +1,11 @@
 import { User } from '@prisma/client'
 import { IUserRepository } from '../interfaces/IUserRepository'
 import { prisma } from '../database/PrismaClientInstance'
+import { CustomError } from '../errors/CustomErrors'
 
 class UserRepository implements IUserRepository {
 
-    public async create(name: string, role: 'STUDENT' | 'TEACHER'): Promise<User | Error> {
+    public async create(name: string, role: 'STUDENT' | 'TEACHER'): Promise<User | CustomError> {
         try {
             const newUser = await prisma.user.create({
                 data: {
@@ -16,11 +17,11 @@ class UserRepository implements IUserRepository {
             return newUser
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao criar registro.')
+            return new CustomError('Erro ao criar registro.')
         }
     }
 
-    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<User[] | Error> {
+    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<User[] | CustomError> {
         try {
             const users = await prisma.user.findMany({
                 skip: (page - 1) * limit,
@@ -38,11 +39,11 @@ class UserRepository implements IUserRepository {
             return users
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao listar registro.')
+            return new CustomError('Erro ao listar registro.')
         }
     }
 
-    public async count(filter: string): Promise<number | Error> {
+    public async count(filter: string): Promise<number | CustomError> {
         try {
             const countOfUsers = await prisma.user.count({
                 where: {
@@ -55,11 +56,11 @@ class UserRepository implements IUserRepository {
             return countOfUsers
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao receber quantidade de registros.')
+            return new CustomError('Erro ao receber quantidade de registros.')
         }
     }
 
-    public async getById(idUser: number): Promise<User | null | Error> {
+    public async getById(idUser: number): Promise<User | null | CustomError> {
         try {
             const user = await prisma.user.findUnique({
                 where: {
@@ -70,11 +71,11 @@ class UserRepository implements IUserRepository {
             return user
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao buscar registro.')
+            return new CustomError('Erro ao buscar registro.')
         }
     }
 
-    public async delete(idUser: number): Promise<void | Error> {
+    public async delete(idUser: number): Promise<void | CustomError> {
         try {
             await prisma.user.delete({
                 where: {
@@ -85,11 +86,11 @@ class UserRepository implements IUserRepository {
 
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao excluir registro.')
+            return new CustomError('Erro ao excluir registro.')
         }
     }
 
-    public async update(idUser: number, name: string): Promise<User | Error> {
+    public async update(idUser: number, name: string): Promise<User | CustomError> {
         try {
             const updatedUser = await prisma.user.update({
                 where: {
@@ -103,7 +104,7 @@ class UserRepository implements IUserRepository {
             return updatedUser
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao atualizar registro.')
+            return new CustomError('Erro ao atualizar registro.')
         }
     }
 

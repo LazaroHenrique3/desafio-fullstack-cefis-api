@@ -4,6 +4,7 @@ import * as yup from 'yup'
 import { GetUserByIdService } from '../../services/userServices/GetUserById'
 import { UserRepository } from '../../repositories/UserRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Para tipar os params do request
 interface IParamProps {
@@ -22,8 +23,8 @@ export const getUserById = async (request: Request<IParamProps>, response: Respo
     const getUserById = new GetUserByIdService(new UserRepository())
     const resultGetUserById = await getUserById.execute(Number(idUser))
 
-    if (resultGetUserById instanceof Error) {
-        return response.status(500).json({
+    if (resultGetUserById instanceof CustomError) {
+        return response.status(resultGetUserById.status).json({
             errors: { default: resultGetUserById.message }
         })
     } else if (resultGetUserById === null || resultGetUserById === undefined) {

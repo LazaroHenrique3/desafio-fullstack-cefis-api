@@ -6,6 +6,7 @@ import { ListCourseService } from '../.././services/courseServices/ListCourseSer
 import { CountCourseService } from '../.././services/courseServices/CountCourseService'
 import { CourseRepository } from '../../repositories/CourseRepository'
 import { validation } from '../../middlewares/Validation'
+import { CustomError } from '../../errors/CustomErrors'
 
 //Validando os query Params
 interface IQueryProps {
@@ -42,12 +43,12 @@ export const listCourse = async (request: Request<{}, {}, {}, IQueryProps>, resp
         filter || DefaultQueryParams.DEFAULT_FILTER
     )
 
-    if(resultCourses instanceof Error){
-        return response.status(500).json({
+    if(resultCourses instanceof CustomError){
+        return response.status(resultCourses.status).json({
             errors: { default: resultCourses.message }
         })
-    } else if (resultCountCourses instanceof Error) {
-        return response.status(500).json({
+    } else if (resultCountCourses instanceof CustomError) {
+        return response.status(resultCountCourses.status).json({
             errors: { default: resultCountCourses.message }
         })
     }

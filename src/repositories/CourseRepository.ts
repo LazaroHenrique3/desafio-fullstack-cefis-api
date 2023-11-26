@@ -1,10 +1,11 @@
 import { Course } from '@prisma/client'
 import { ICourseRepository } from '../interfaces/ICourseRepository'
 import { prisma } from '../database/PrismaClientInstance'
+import { CustomError } from '../errors/CustomErrors'
 
 class CourseRepository implements ICourseRepository {
 
-    public async create(title: string, duration: number, teacherId: number): Promise<Course | Error> {
+    public async create(title: string, duration: number, teacherId: number): Promise<Course | CustomError> {
         try {
             const newCourse = await prisma.course.create({
                 data: {
@@ -17,11 +18,11 @@ class CourseRepository implements ICourseRepository {
             return newCourse
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao criar registro.')
+            return new CustomError('Erro ao criar registro.')
         }
     }
 
-    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<Course[] | Error> {
+    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<Course[] | CustomError> {
         try {
             const courses = await prisma.course.findMany({
                 skip: (page - 1) * limit,
@@ -39,11 +40,11 @@ class CourseRepository implements ICourseRepository {
             return courses
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao listar registro.')
+            return new CustomError('Erro ao listar registro.')
         }
     }
 
-    public async count(filter: string): Promise<number | Error> {
+    public async count(filter: string): Promise<number | CustomError> {
         try {
             const countOfCourses = await prisma.course.count({
                 where: {
@@ -56,11 +57,11 @@ class CourseRepository implements ICourseRepository {
             return countOfCourses
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao receber quantidade de registros.')
+            return new CustomError('Erro ao receber quantidade de registros.')
         }
     }
 
-    public async getById(idCourse: number): Promise<Course | null | Error> {
+    public async getById(idCourse: number): Promise<Course | null | CustomError> {
         try {
             const course = await prisma.course.findUnique({
                 where: {
@@ -71,11 +72,11 @@ class CourseRepository implements ICourseRepository {
             return course
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao buscar registro.')
+            return new CustomError('Erro ao buscar registro.')
         }
     }
 
-    public async delete(idCourse: number): Promise<void | Error> {
+    public async delete(idCourse: number): Promise<void | CustomError> {
         try {
             await prisma.course.delete({
                 where: {
@@ -86,11 +87,11 @@ class CourseRepository implements ICourseRepository {
 
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao excluir registro.')
+            return new CustomError('Erro ao excluir registro.')
         }
     }
 
-    public async update(idCourse: number, title: string, duration: number): Promise<Course | Error> {
+    public async update(idCourse: number, title: string, duration: number): Promise<Course | CustomError> {
         try {
             const updatedCourse = await prisma.course.update({
                 where: {
@@ -105,7 +106,7 @@ class CourseRepository implements ICourseRepository {
             return updatedCourse
         } catch (error) {
             console.error(error)
-            return new Error('Erro ao atualizar registro.')
+            return new CustomError('Erro ao atualizar registro.')
         }
     }
 
