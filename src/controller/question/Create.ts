@@ -9,6 +9,7 @@ import { validation } from '../../middlewares/Validation'
 //Para tipar o body do request
 interface IBodyProps extends Omit<Question, 'id'> { }
 
+//Middleware
 export const createQuestionValidation = validation((getSchema) => ({
     body: getSchema<IBodyProps>(yup.object().shape({
         question_text: yup.string().required(),
@@ -21,7 +22,7 @@ export const createQuestion = async (request: Request<{}, {}, IBodyProps>, respo
     const { idCourse, idStudent, question_text } = request.body
 
     const createQuestion = new CreateQuestionService(new QuestionRepository())
-    const resultQuestion = await createQuestion.execute(String(question_text), idCourse, idStudent)
+    const resultQuestion = await createQuestion.execute(String(question_text), Number(idCourse), Number(idStudent))
 
     if (resultQuestion instanceof Error) {
         return response.status(500).json({
