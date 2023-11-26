@@ -29,17 +29,13 @@ export const updateCourse = async (request: Request<IParamProps, {}, IBodyProps>
     const { idCourse } = request.params
 
     const updateCourse = new UpdateCourseService(new CourseRepository())
-    const resultUpdateCourse = await updateCourse.execute(Number(idCourse), String(title), duration)
+    const resultUpdateCourse = await updateCourse.execute(Number(idCourse), String(title), Number(duration))
 
     if(resultUpdateCourse instanceof Error){
         return response.status(500).json({
             errors: { default: resultUpdateCourse.message }
         })
-    } else if (resultUpdateCourse === null) {
-        return response.status(404).json({
-            errors: { default: 'Registro não encontado para atualização.' }
-        })
-    }
+    } 
 
     return response.status(200).json(resultUpdateCourse)
 }
