@@ -36,11 +36,7 @@ export const updateUser = async (request: Request<IParamProps, {}, IBodyProps>, 
         return response.status(500).json({
             errors: { default: resultUpdateUser.message }
         })
-    } else if (resultUpdateUser === null) {
-        return response.status(404).json({
-            errors: { default: 'Registro não encontado para atualização.' }
-        })
-    }
+    } 
 
     return response.status(200).json(resultUpdateUser)
 }
