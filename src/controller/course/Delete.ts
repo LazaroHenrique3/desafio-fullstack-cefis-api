@@ -26,11 +26,7 @@ export const deleteCourse = async (request: Request<IParamProps>, response: Resp
         return response.status(500).json({
             errors: { default: resultDeleteCourse.message }
         })
-    } else if (resultDeleteCourse === null) {
-        return response.status(404).json({
-            errors: { default: 'Registro não encontado para exclusão.' }
-        })
-    }
+    } 
 
 
     return response.status(204).send()
