@@ -34,12 +34,12 @@ export const listCourse = async (request: Request<{}, {}, {}, IQueryProps>, resp
     const resultCourses = await listCourses.execute(
         Number(page) || DefaultQueryParams.DEFAULT_PAGE, 
         Number(limit) || DefaultQueryParams.DEFAULT_LIMIT, 
-        filter || DefaultQueryParams.DEFAULT_FILTER, 
-        orderBy as 'asc' | 'desc' || DefaultQueryParams.DEFAULT_ORDER_BY
+        String(filter) || DefaultQueryParams.DEFAULT_FILTER, 
+        String(orderBy) as 'asc' | 'desc' || DefaultQueryParams.DEFAULT_ORDER_BY
     )
 
     const resultCountCourses = await  countCourses.execute(
-        filter || DefaultQueryParams.DEFAULT_FILTER
+        String(filter) || DefaultQueryParams.DEFAULT_FILTER
     )
 
     if(resultCourses instanceof Error){
