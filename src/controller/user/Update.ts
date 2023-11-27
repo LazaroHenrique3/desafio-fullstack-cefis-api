@@ -8,7 +8,7 @@ import { validation } from '../../middlewares/Validation'
 import { CustomError } from '../../errors/CustomErrors'
 
 //Para tipar o body do request
-interface IBodyProps extends Omit<User, 'id'> { }
+interface IBodyProps extends Omit<User, 'id' | 'role'> { }
 
 //Para tipar os params do request
 interface IParamProps {
@@ -22,7 +22,6 @@ export const updateUserValidation = validation((getSchema) => ({
     })),
     body: getSchema<IBodyProps>(yup.object().shape({
         name: yup.string().required(),
-        role: yup.string().oneOf(['STUDENT', 'TEACHER']).required()
     }))
 }))
 
