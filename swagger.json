@@ -1,0 +1,404 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Desafio Full-Stack",
+      "description": "Documentação para o desafio técnico Full-Stack",
+      "version": "1.0.0"
+    },
+    "basePath": "/",
+    "paths": {
+      "/users/listUser": {
+        "get": {
+          "summary": "Listar Usuários",
+          "description": "Retorna todos os usuários cadastrados no sistema.",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "type": "number",
+              "required": false,
+              "description": "Parâmetro de página, responsável por calcular o intervalo de registros a serem retornados."
+            },
+            {
+              "in": "query",
+              "name": "limit",
+              "type": "number",
+              "required": false,
+              "description": "Parâmetro de limitação de registros a serem retornados."
+            },
+            {
+              "in": "query",
+              "name": "filter",
+              "type": "string",
+              "required": false,
+              "description": "Parâmetro de pesquisa por nome do Usuario."
+            },
+            {
+              "in": "query",
+              "name": "orderBy",
+              "type": "string",
+              "required": false,
+              "description": "Parâmetro de ordenação de registros por ordem crescente(asc) e decrescente(desc)."
+            }
+          ],
+          "tags": ["Users"],
+          "responses": {
+            "500": { "$ref": "#/components/responses/internalServerError" },
+            "404": { "$ref": "#/components/responses/notFound" },
+            "200": { "$ref": "#/components/responses/userList" }
+          }
+        }
+      },
+      "/users/listUser/{idUser}": {
+        "get": {
+          "summary": "Buscar Usuário por ID",
+          "description": "Retorna o registro de um usuário pelo ID.",
+          "parameters": [{ "$ref": "#/components/parameters/idUserPath" }],
+          "tags": ["Users"],
+          "responses": {
+            "500": { "$ref": "#/components/responses/internalServerError" },
+            "400": { "$ref": "#/components/responses/badRequest" },
+            "404": { "$ref": "#/components/responses/notFound" },
+            "200": { "$ref": "#/components/responses/user" }
+          }
+        }
+      },
+      "/users/createUser": { "$ref": "#/components/endpoints/createUser" },
+      "/users/updateUser/{idUser}": { "$ref": "#/components/endpoints/updateUser" },
+      "/users/deleteUser/{idUser}": { "$ref": "#/components/endpoints/deleteUser" }
+    },
+    "components": {
+      "parameters": {
+        "page": {
+          "in": "query",
+          "name": "page",
+          "type": "number",
+          "required": false,
+          "description": "Parâmetro de página, responsável por calcular o intervalo de registros a serem retornados."
+        },
+        "limit": {
+          "in": "query",
+          "name": "limit",
+          "type": "number",
+          "required": false,
+          "description": "Parâmetro de limitação de registros a serem retornados."
+        },
+        "filter": {
+          "in": "query",
+          "name": "filter",
+          "type": "string",
+          "required": false,
+          "description": "Parâmetro de pesquisa por nome do Usuario."
+        },
+        "orderBy": {
+          "in": "query",
+          "name": "orderBy",
+          "type": "string",
+          "required": false,
+          "description": "Parâmetro de ordenação de registros por ordem crescente(asc) e decrescente(desc)."
+        },
+        "idUserPath": {
+          "in": "path",
+          "name": "idUser",
+          "type": "number",
+          "required": true,
+          "description": "Parâmetro para pesquisa de Usuario pelo id."
+        }
+      },
+      "responses": {
+        "internalServerError": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "errors": {
+                    "type": "object",
+                    "properties": {
+                      "default": {
+                        "type": "string",
+                        "example": "Erro ao listar registros"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "badRequest": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "errors": {
+                    "type": "object",
+                    "properties": {
+                      "params": {
+                        "type": "object",
+                        "properties": {
+                          "idUser": {
+                            "type": "string",
+                            "example": "Formato digitado é inválido"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "notFound": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "errors": {
+                    "type": "object",
+                    "properties": {
+                      "default": {
+                        "type": "string",
+                        "example": "Registro não encontrado."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "user": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "name": "John Doe",
+                  "role": "STUDENT"
+                }
+              }
+            }
+          }
+        },
+        "userList": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": 1,
+                      "name": "John Doe",
+                      "role": "STUDENT"
+                    },
+                    {
+                      "id": 2,
+                      "name": "Jane Doe",
+                      "role": "TEACHER"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "noContent": {
+          "description": "No Content"
+        }
+      },
+      "endpoints": {
+        "createUser": {
+          "post": {
+            "summary": "Criar Usuário",
+            "description": "Cria um novo usuário.",
+            "tags": ["Users"],
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "role": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "name": "John Doe",
+                      "role": "STUDENT"
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": { "$ref": "#/components/responses/user" },
+              "400": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "object",
+                          "properties": {
+                            "body": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "example": "Este campo é obrigatório"
+                                },
+                                "role": {
+                                  "type": "string",
+                                  "example": "Este campo é obrigatório"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "500": { "$ref": "#/components/responses/internalServerError" }
+            }
+          }
+        },
+        "updateUser": {
+          "put": {
+            "summary": "Atualizar Usuário por ID",
+            "description": "Atualiza e retorna o registro atualizado de um usuário.",
+            "parameters": [{ "$ref": "#/components/parameters/idUserPath" }],
+            "tags": ["Users"],
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "name": "John Doe Updated"
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "500": { "$ref": "#/components/responses/internalServerError" },
+              "400": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "object",
+                          "properties": {
+                            "params": {
+                              "type": "object",
+                              "properties": {
+                                "idUser": {
+                                  "type": "string",
+                                  "example": "Formato digitado é inválido"
+                                }
+                              }
+                            },
+                            "body": {
+                              "type": "object",
+                              "properties": {
+                                "idUser": {
+                                  "type": "string",
+                                  "example": "Este campo é obrigatório"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "404": { "$ref": "#/components/responses/notFound" },
+              "200": { "$ref": "#/components/responses/user" }
+            }
+          }
+        },
+        "deleteUser": {
+          "delete": {
+            "summary": "Deletar Usuário por ID",
+            "description": "Deleta um usuário.",
+            "parameters": [{ "$ref": "#/components/parameters/idUserPath" }],
+            "tags": ["Users"],
+            "responses": {
+              "500": { "$ref": "#/components/responses/internalServerError" },
+              "400": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "object",
+                          "properties": {
+                            "params": {
+                              "type": "object",
+                              "properties": {
+                                "idUser": {
+                                  "type": "string",
+                                  "example": "Formato digitado é inválido"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "404": { "$ref": "#/components/responses/notFound" },
+              "204": { "$ref": "#/components/responses/noContent" }
+            }
+          }
+        }
+      }
+    }
+  }
