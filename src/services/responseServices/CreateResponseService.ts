@@ -25,7 +25,7 @@ class CreateResponseService {
         //Verificar se esse professor é dono do curso
         const isOwner = await checkIfThisTeacherOwnsTheCourse(idTeacher, idQuestion)
         if(!isOwner) {
-            return new CustomError('Você não é instrutor neste curso.', 403)
+            return new CustomError('Este professor não é instrutor neste curso.', 403)
         }
 
         const newResponse = await this.ResponseRepository.create(responseText, idQuestion)
