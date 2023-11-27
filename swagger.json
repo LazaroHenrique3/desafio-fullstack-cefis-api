@@ -1,147 +1,434 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-      "title": "Desafio Full-Stack",
-      "description": "Documentação para o desafio técnico Full-Stack",
-      "version": "1.0.0"
-    },
-    "basePath": "/",
-    "paths": {
-      "/users/listUser": {
-        "get": {
-          "summary": "Listar Usuários",
-          "description": "Retorna todos os usuários cadastrados no sistema.",
-          "parameters": [
-            {
-              "in": "query",
-              "name": "page",
-              "type": "number",
-              "required": false,
-              "description": "Parâmetro de página, responsável por calcular o intervalo de registros a serem retornados."
-            },
-            {
-              "in": "query",
-              "name": "limit",
-              "type": "number",
-              "required": false,
-              "description": "Parâmetro de limitação de registros a serem retornados."
-            },
-            {
-              "in": "query",
-              "name": "filter",
-              "type": "string",
-              "required": false,
-              "description": "Parâmetro de pesquisa por nome do Usuario."
-            },
-            {
-              "in": "query",
-              "name": "orderBy",
-              "type": "string",
-              "required": false,
-              "description": "Parâmetro de ordenação de registros por ordem crescente(asc) e decrescente(desc)."
-            }
-          ],
-          "tags": ["Users"],
-          "responses": {
-            "500": { "$ref": "#/components/responses/internalServerError" },
-            "404": { "$ref": "#/components/responses/notFound" },
-            "200": { "$ref": "#/components/responses/userList" }
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Desafio Full-Stack",
+    "description": "Documentação para o desafio técnico Full-Stack",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/users/listUser": {
+      "get": {
+        "summary": "Listar Usuários",
+        "description": "Retorna todos os usuários cadastrados no sistema.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "type": "number",
+            "required": false,
+            "description": "Parâmetro de página, responsável por calcular o intervalo de registros a serem retornados."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "description": "Parâmetro de limitação de registros a serem retornados."
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "type": "string",
+            "required": false,
+            "description": "Parâmetro de pesquisa por nome do Usuario."
+          },
+          {
+            "in": "query",
+            "name": "orderBy",
+            "type": "string",
+            "required": false,
+            "description": "Parâmetro de ordenação de registros por ordem crescente(asc) e decrescente(desc)."
+          }
+        ],
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFoundList"
+          },
+          "200": {
+            "$ref": "#/components/responses/userList"
           }
         }
-      },
-      "/users/listUser/{idUser}": {
-        "get": {
-          "summary": "Buscar Usuário por ID",
-          "description": "Retorna o registro de um usuário pelo ID.",
-          "parameters": [{ "$ref": "#/components/parameters/idUserPath" }],
-          "tags": ["Users"],
-          "responses": {
-            "500": { "$ref": "#/components/responses/internalServerError" },
-            "400": { "$ref": "#/components/responses/badRequest" },
-            "404": { "$ref": "#/components/responses/notFound" },
-            "200": { "$ref": "#/components/responses/user" }
+      }
+    },
+    "/users/listUser/{idUser}": {
+      "get": {
+        "summary": "Buscar Usuário por ID",
+        "description": "Retorna o registro de um usuário pelo ID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idUserPath"
+          }
+        ],
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequestUser"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "200": {
+            "$ref": "#/components/responses/user"
           }
         }
-      },
-      "/users/createUser": { "$ref": "#/components/endpoints/createUser" },
-      "/users/updateUser/{idUser}": { "$ref": "#/components/endpoints/updateUser" },
-      "/users/deleteUser/{idUser}": { "$ref": "#/components/endpoints/deleteUser" }
+      }
     },
-    "components": {
-      "parameters": {
-        "page": {
-          "in": "query",
-          "name": "page",
-          "type": "number",
-          "required": false,
-          "description": "Parâmetro de página, responsável por calcular o intervalo de registros a serem retornados."
-        },
-        "limit": {
-          "in": "query",
-          "name": "limit",
-          "type": "number",
-          "required": false,
-          "description": "Parâmetro de limitação de registros a serem retornados."
-        },
-        "filter": {
-          "in": "query",
-          "name": "filter",
-          "type": "string",
-          "required": false,
-          "description": "Parâmetro de pesquisa por nome do Usuario."
-        },
-        "orderBy": {
-          "in": "query",
-          "name": "orderBy",
-          "type": "string",
-          "required": false,
-          "description": "Parâmetro de ordenação de registros por ordem crescente(asc) e decrescente(desc)."
-        },
-        "idUserPath": {
-          "in": "path",
-          "name": "idUser",
-          "type": "number",
-          "required": true,
-          "description": "Parâmetro para pesquisa de Usuario pelo id."
+    "/users/createUser": {
+      "$ref": "#/components/endpoints/createUser"
+    },
+    "/users/updateUser/{idUser}": {
+      "$ref": "#/components/endpoints/updateUser"
+    },
+    "/users/deleteUser/{idUser}": {
+      "$ref": "#/components/endpoints/deleteUser"
+    },
+    "/courses/listCourse": {
+      "get": {
+        "summary": "Listar Cursos",
+        "description": "Retorna todos os cursos cadastrados no sistema.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "type": "number",
+            "required": false,
+            "description": "Parâmetro de página, responsável por calcular o intervalo de registros a serem retornados."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "description": "Parâmetro de limitação de registros a serem retornados."
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "type": "string",
+            "required": false,
+            "description": "Parâmetro de pesquisa por nome do Usuario."
+          },
+          {
+            "in": "query",
+            "name": "orderBy",
+            "type": "string",
+            "required": false,
+            "description": "Parâmetro de ordenação de registros por ordem crescente(asc) e decrescente(desc)."
+          }
+        ],
+        "tags": [
+          "Courses"
+        ],
+        "responses": {
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFoundList"
+          },
+          "200": {
+            "$ref": "#/components/responses/courseList"
+          }
         }
+      }
+    },
+    "/courses/listCourse/{idCourse}": {
+      "get": {
+        "summary": "Buscar Curso por ID",
+        "description": "Retorna o registro de um curso pelo ID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/idCoursePath"
+          }
+        ],
+        "tags": [
+          "Courses"
+        ],
+        "responses": {
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequestCourse"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "200": {
+            "$ref": "#/components/responses/course"
+          }
+        }
+      }
+    },
+    "/courses/createCourse": {
+      "$ref": "#/components/endpoints/createCourse"
+    },
+    "/courses/updateCourse/{idCourse}": {
+      "$ref": "#/components/endpoints/updateCourse"
+    },
+    "/courses/deleteCourse/{idCourse}": {
+      "$ref": "#/components/endpoints/deleteCourse"
+    },
+    "/questions/listQuestionCourse/{idCourse}": {
+      "get": {
+        "summary": "Listar Perguntas",
+        "description": "Retorna todas as perguntas relacionadas a um curso.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idCourse",
+            "type": "number",
+            "required": true,
+            "description": "Parâmetro de identificação do curso, os registros serão retornados com base nisso."
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "number",
+            "required": false,
+            "description": "Parâmetro de página, responsável por calcular o intervalo de registros a serem retornados."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "description": "Parâmetro de limitação de registros a serem retornados."
+          },
+          {
+            "in": "query",
+            "name": "orderBy",
+            "type": "string",
+            "required": false,
+            "description": "Parâmetro de ordenação de registros por ordem crescente(asc) e decrescente(desc)."
+          }
+        ],
+        "tags": [
+          "Questions"
+        ],
+        "responses": {
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFoundList"
+          },
+          "200": {
+            "$ref": "#/components/responses/questionList"
+          }
+        }
+      }
+    },
+    "/questions/createQuestion": {
+      "$ref": "#/components/endpoints/createQuestion"
+    },
+    "/responses/listResponseQuestion/{idQuestion}": {
+      "get": {
+        "summary": "Listar Respostas",
+        "description": "Retorna todas as respostas relacionadas a uma pergunta.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idQuestion",
+            "type": "number",
+            "required": true,
+            "description": "Parâmetro de identificação de pergunta, os registros serão retornados com base nisso."
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "number",
+            "required": false,
+            "description": "Parâmetro de página, responsável por calcular o intervalo de registros a serem retornados."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "number",
+            "required": false,
+            "description": "Parâmetro de limitação de registros a serem retornados."
+          },
+          {
+            "in": "query",
+            "name": "orderBy",
+            "type": "string",
+            "required": false,
+            "description": "Parâmetro de ordenação de registros por ordem crescente(asc) e decrescente(desc)."
+          }
+        ],
+        "tags": [
+          "Responses"
+        ],
+        "responses": {
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFoundList"
+          },
+          "200": {
+            "$ref": "#/components/responses/responseList"
+          }
+        }
+      }
+    },
+    "/responses/createResponse/{idTeacher}": {
+      "$ref": "#/components/endpoints/createResponse"
+    }
+  },
+  "components": {
+    "parameters": {
+      "page": {
+        "in": "query",
+        "name": "page",
+        "type": "number",
+        "required": false,
+        "description": "Parâmetro de página, responsável por calcular o intervalo de registros a serem retornados."
       },
-      "responses": {
-        "internalServerError": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "errors": {
-                    "type": "object",
-                    "properties": {
-                      "default": {
-                        "type": "string",
-                        "example": "Erro ao listar registros"
-                      }
+      "limit": {
+        "in": "query",
+        "name": "limit",
+        "type": "number",
+        "required": false,
+        "description": "Parâmetro de limitação de registros a serem retornados."
+      },
+      "filter": {
+        "in": "query",
+        "name": "filter",
+        "type": "string",
+        "required": false,
+        "description": "Parâmetro de pesquisa por nome do Usuario ou título do Curso."
+      },
+      "orderBy": {
+        "in": "query",
+        "name": "orderBy",
+        "type": "string",
+        "required": false,
+        "description": "Parâmetro de ordenação de registros por ordem crescente(asc) e decrescente(desc)."
+      },
+      "idUserPath": {
+        "in": "path",
+        "name": "idUser",
+        "type": "number",
+        "required": true,
+        "description": "Parâmetro para pesquisa de Usuario pelo id."
+      },
+      "idCoursePath": {
+        "in": "path",
+        "name": "idCourse",
+        "type": "number",
+        "required": true,
+        "description": "Parâmetro para pesquisa de Curso pelo id."
+      }
+    },
+    "responses": {
+      "internalServerError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "default": {
+                      "type": "string",
+                      "example": "Erro ao listar registros"
                     }
                   }
                 }
               }
             }
           }
-        },
-        "badRequest": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "errors": {
-                    "type": "object",
-                    "properties": {
-                      "params": {
-                        "type": "object",
-                        "properties": {
-                          "idUser": {
-                            "type": "string",
-                            "example": "Formato digitado é inválido"
-                          }
+        }
+      },
+      "internalServerErrorCreate": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "default": {
+                      "type": "string",
+                      "example": "Erro ao criar registro."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "internalServerErrorUpdate": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "default": {
+                      "type": "string",
+                      "example": "Erro ao atualizar registro."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "internalServerErrorDelete": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "default": {
+                      "type": "string",
+                      "example": "Erro ao excluir registro."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "badRequestUser": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "params": {
+                      "type": "object",
+                      "properties": {
+                        "idUser": {
+                          "type": "string",
+                          "example": "Formato digitado é inválido"
                         }
                       }
                     }
@@ -150,19 +437,24 @@
               }
             }
           }
-        },
-        "notFound": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "errors": {
-                    "type": "object",
-                    "properties": {
-                      "default": {
-                        "type": "string",
-                        "example": "Registro não encontrado."
+        }
+      },
+      "badRequestCourse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "params": {
+                      "type": "object",
+                      "properties": {
+                        "idCourse": {
+                          "type": "string",
+                          "example": "Formato digitado é inválido"
+                        }
                       }
                     }
                   }
@@ -170,11 +462,162 @@
               }
             }
           }
-        },
-        "user": {
-          "content": {
-            "application/json": {
-              "schema": {
+        }
+      },
+      "notFound": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "default": {
+                      "type": "string",
+                      "example": "Registro não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "notFoundList": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "object",
+                  "properties": {
+                    "default": {
+                      "type": "string",
+                      "example": "Registro(s) não encontrado(s)."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "user": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "id": 1,
+                "name": "John Doe",
+                "role": "STUDENT"
+              }
+            }
+          }
+        }
+      },
+      "course": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "teacherId": {
+                  "type": "number"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "duration": {
+                  "type": "number"
+                }
+              },
+              "example": {
+                "id": 1,
+                "teacherId": 1,
+                "title": "Contabilidade Básica e Avançada",
+                "duration": 1
+              }
+            }
+          }
+        }
+      },
+      "question": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "idCourse": {
+                  "type": "number"
+                },
+                "idStudent": {
+                  "type": "number"
+                },
+                "question_text": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "id": 1,
+                "idCourse": 1,
+                "idStudent": 1,
+                "question_text": "Não entendi o que o professor..."
+              }
+            }
+          }
+        }
+      },
+      "response": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "idQuestion": {
+                  "type": "number"
+                },
+                "response_text": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "id": 1,
+                "idQuestion": 1,
+                "question_text": "Em termos gerais quis dizer que..."
+              }
+            }
+          }
+        }
+      },
+      "userList": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
                 "type": "object",
                 "properties": {
                   "id": {
@@ -186,27 +629,157 @@
                   "role": {
                     "type": "string"
                   }
-                },
-                "example": {
-                  "id": 1,
+                }
+              },
+              "example": [
+                {
+                  "id": 7,
                   "name": "John Doe",
                   "role": "STUDENT"
+                },
+                {
+                  "id": 3,
+                  "name": "Jane Doe",
+                  "role": "TEACHER"
                 }
-              }
+              ]
             }
           }
-        },
-        "userList": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
+        }
+      },
+      "courseList": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "teacherId": {
+                    "type": "number"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "duration": {
+                    "type": "number"
+                  }
+                }
+              },
+              "example": [
+                {
+                  "id": 1,
+                  "teacherId": 1,
+                  "title": "Contabilidade Básica e Avançada",
+                  "duration": 1
+                },
+                {
+                  "id": 2,
+                  "teacherId": 1,
+                  "title": "Gestão Empresarial",
+                  "duration": 1
+                }
+              ]
+            }
+          }
+        }
+      },
+      "questionList": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "idCourse": {
+                    "type": "number"
+                  },
+                  "idStudent": {
+                    "type": "number"
+                  },
+                  "question_text": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": [
+                {
+                  "id": 1,
+                  "idCourse": 1,
+                  "idStudent": 1,
+                  "question_text": "Não entendi o que o professor..."
+                },
+                {
+                  "id": 2,
+                  "idCourse": 1,
+                  "idStudent": 1,
+                  "question_text": "O que significa aquela parte..."
+                }
+              ]
+            }
+          }
+        }
+      },
+      "responseList": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "idQuestion": {
+                    "type": "number"
+                  },
+                  "response_text": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": [
+                {
+                  "id": 1,
+                  "idQuestion": 1,
+                  "response_text": "Em termos gerais, quis dizer que..."
+                },
+                {
+                  "id": 2,
+                  "idQuestion": 1,
+                  "response_text": "Quando ocorre que..."
+                }
+              ]
+            }
+          }
+        }
+      },
+      "noContent": {
+        "description": "No Content"
+      }
+    },
+    "endpoints": {
+      "createUser": {
+        "post": {
+          "summary": "Criar Usuário",
+          "description": "Cria um novo usuário.",
+          "tags": [
+            "Users"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "number"
-                    },
                     "name": {
                       "type": "string"
                     },
@@ -214,76 +787,110 @@
                       "type": "string"
                     }
                   },
-                  "example": [
-                    {
-                      "id": 1,
-                      "name": "John Doe",
-                      "role": "STUDENT"
-                    },
-                    {
-                      "id": 2,
-                      "name": "Jane Doe",
-                      "role": "TEACHER"
-                    }
-                  ]
+                  "example": {
+                    "name": "John Doe",
+                    "role": "STUDENT"
+                  }
                 }
               }
             }
+          },
+          "responses": {
+            "201": {
+              "$ref": "#/components/responses/user"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "body": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
+                              },
+                              "role": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "$ref": "#/components/responses/internalServerErrorCreate"
+            }
           }
-        },
-        "noContent": {
-          "description": "No Content"
         }
       },
-      "endpoints": {
-        "createUser": {
-          "post": {
-            "summary": "Criar Usuário",
-            "description": "Cria um novo usuário.",
-            "tags": ["Users"],
-            "requestBody": {
+      "updateUser": {
+        "put": {
+          "summary": "Atualizar Usuário por ID",
+          "description": "Atualiza e retorna o registro atualizado de um usuário.",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/idUserPath"
+            }
+          ],
+          "tags": [
+            "Users"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "name": "John Doe"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "500": {
+              "$ref": "#/components/responses/internalServerError"
+            },
+            "400": {
               "content": {
                 "application/json": {
                   "schema": {
                     "type": "object",
                     "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "role": {
-                        "type": "string"
-                      }
-                    },
-                    "example": {
-                      "name": "John Doe",
-                      "role": "STUDENT"
-                    }
-                  }
-                }
-              }
-            },
-            "responses": {
-              "201": { "$ref": "#/components/responses/user" },
-              "400": {
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "errors": {
-                          "type": "object",
-                          "properties": {
-                            "body": {
-                              "type": "object",
-                              "properties": {
-                                "name": {
-                                  "type": "string",
-                                  "example": "Este campo é obrigatório"
-                                },
-                                "role": {
-                                  "type": "string",
-                                  "example": "Este campo é obrigatório"
-                                }
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "params": {
+                            "type": "object",
+                            "properties": {
+                              "idUser": {
+                                "type": "string",
+                                "example": "Formato digitado é inválido"
+                              }
+                            }
+                          },
+                          "body": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
                               }
                             }
                           }
@@ -292,99 +899,126 @@
                     }
                   }
                 }
-              },
-              "500": { "$ref": "#/components/responses/internalServerError" }
+              }
+            },
+            "404": {
+              "$ref": "#/components/responses/notFound"
+            },
+            "200": {
+              "$ref": "#/components/responses/user"
             }
           }
-        },
-        "updateUser": {
-          "put": {
-            "summary": "Atualizar Usuário por ID",
-            "description": "Atualiza e retorna o registro atualizado de um usuário.",
-            "parameters": [{ "$ref": "#/components/parameters/idUserPath" }],
-            "tags": ["Users"],
-            "requestBody": {
+        }
+      },
+      "deleteUser": {
+        "delete": {
+          "summary": "Deletar Usuário por ID",
+          "description": "Deleta um usuário.",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/idUserPath"
+            }
+          ],
+          "tags": [
+            "Users"
+          ],
+          "responses": {
+            "500": {
+              "$ref": "#/components/responses/internalServerError"
+            },
+            "400": {
               "content": {
                 "application/json": {
                   "schema": {
                     "type": "object",
                     "properties": {
-                      "name": {
-                        "type": "string"
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "params": {
+                            "type": "object",
+                            "properties": {
+                              "idUser": {
+                                "type": "string",
+                                "example": "Formato digitado é inválido"
+                              }
+                            }
+                          }
+                        }
                       }
-                    },
-                    "example": {
-                      "name": "John Doe Updated"
                     }
                   }
                 }
               }
             },
-            "responses": {
-              "500": { "$ref": "#/components/responses/internalServerError" },
-              "400": {
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "errors": {
-                          "type": "object",
-                          "properties": {
-                            "params": {
-                              "type": "object",
-                              "properties": {
-                                "idUser": {
-                                  "type": "string",
-                                  "example": "Formato digitado é inválido"
-                                }
-                              }
-                            },
-                            "body": {
-                              "type": "object",
-                              "properties": {
-                                "idUser": {
-                                  "type": "string",
-                                  "example": "Este campo é obrigatório"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "404": { "$ref": "#/components/responses/notFound" },
-              "200": { "$ref": "#/components/responses/user" }
+            "404": {
+              "$ref": "#/components/responses/notFound"
+            },
+            "204": {
+              "$ref": "#/components/responses/noContent"
             }
           }
-        },
-        "deleteUser": {
-          "delete": {
-            "summary": "Deletar Usuário por ID",
-            "description": "Deleta um usuário.",
-            "parameters": [{ "$ref": "#/components/parameters/idUserPath" }],
-            "tags": ["Users"],
-            "responses": {
-              "500": { "$ref": "#/components/responses/internalServerError" },
-              "400": {
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "errors": {
-                          "type": "object",
-                          "properties": {
-                            "params": {
-                              "type": "object",
-                              "properties": {
-                                "idUser": {
-                                  "type": "string",
-                                  "example": "Formato digitado é inválido"
-                                }
+        }
+      },
+      "createCourse": {
+        "post": {
+          "summary": "Criar Curso",
+          "description": "Cria um novo curso.",
+          "tags": [
+            "Courses"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "duration": {
+                      "type": "number"
+                    },
+                    "teacherId": {
+                      "type": "number"
+                    }
+                  },
+                  "example": {
+                    "title": "Contabilidade Básica e Avançada",
+                    "duration": 1,
+                    "teacherId": 1
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "$ref": "#/components/responses/course"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "body": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
+                              },
+                              "duration": {
+                                "type": "number",
+                                "example": "Este campo é obrigatório"
+                              },
+                              "teacherId": {
+                                "type": "number",
+                                "example": "Este campo é obrigatório"
                               }
                             }
                           }
@@ -393,12 +1027,418 @@
                     }
                   }
                 }
-              },
-              "404": { "$ref": "#/components/responses/notFound" },
-              "204": { "$ref": "#/components/responses/noContent" }
+              }
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "default": {
+                            "type": "string",
+                            "example": "Professor não encontrado ou este usuário não é um professor."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "$ref": "#/components/responses/internalServerErrorCreate"
+            }
+          }
+        }
+      },
+      "updateCourse": {
+        "put": {
+          "summary": "Atualizar Curso por ID",
+          "description": "Atualiza e retorna o registro atualizado de um curso.",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/idCoursePath"
+            }
+          ],
+          "tags": [
+            "Courses"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "duration": {
+                      "type": "number"
+                    }
+                  },
+                  "example": {
+                    "title": "Contabilidade Básica e Avançada",
+                    "duration": 1
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "500": {
+              "$ref": "#/components/responses/internalServerErrorUpdate"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "params": {
+                            "type": "object",
+                            "properties": {
+                              "idCourse": {
+                                "type": "string",
+                                "example": "Formato digitado é inválido"
+                              }
+                            }
+                          },
+                          "body": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
+                              },
+                              "duration": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "$ref": "#/components/responses/notFound"
+            },
+            "200": {
+              "$ref": "#/components/responses/course"
+            }
+          }
+        }
+      },
+      "deleteCourse": {
+        "delete": {
+          "summary": "Deletar Curso por ID",
+          "description": "Deleta um curso.",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/idCoursePath"
+            }
+          ],
+          "tags": [
+            "Courses"
+          ],
+          "responses": {
+            "500": {
+              "$ref": "#/components/responses/internalServerErrorDelete"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "params": {
+                            "type": "object",
+                            "properties": {
+                              "idCourse": {
+                                "type": "string",
+                                "example": "Formato digitado é inválido"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "$ref": "#/components/responses/notFound"
+            },
+            "204": {
+              "$ref": "#/components/responses/noContent"
+            }
+          }
+        }
+      },
+      "createQuestion": {
+        "post": {
+          "summary": "Criar Pergunta",
+          "description": "Cria uma nova pergunta relacionada a um curso.",
+          "tags": [
+            "Questions"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idCourse": {
+                      "type": "number"
+                    },
+                    "idStudent": {
+                      "type": "number"
+                    },
+                    "question_text": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "idCourse": 1,
+                    "idStudent": 1,
+                    "question_text": "Não entendi o que o professor..."
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "$ref": "#/components/responses/question"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "body": {
+                            "type": "object",
+                            "properties": {
+                              "idCourse": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
+                              },
+                              "idStudent": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
+                              },
+                              "question_text": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "errors": {
+                            "type": "object",
+                            "properties": {
+                              "default": {
+                                "type": "string",
+                                "example": "O aluno atingiu o limite total(n) de perguntas."
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "default": {
+                            "type": "string",
+                            "example": "Curso não encontrado / Estudante não encontrado."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "$ref": "#/components/responses/internalServerErrorCreate"
+            }
+          }
+        }
+      },
+      "createResponse": {
+        "post": {
+          "summary": "Criar Resposta",
+          "description": "Cria uma nova resposta relacionada a uma pergunta.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idTeacher",
+              "type": "number",
+              "required": true,
+              "description": "Parâmetro de identificação de professor, utilizado para validação de acesso."
+            }
+          ],
+          "tags": [
+            "Responses"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idQuestion": {
+                      "type": "number"
+                    },
+                    "response_text": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "idQuestion": 1,
+                    "response_text": "Em termos gerais quis dizer que..."
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "$ref": "#/components/responses/response"
+            },
+            "400": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "params": {
+                            "type": "object",
+                            "properties": {
+                              "idTeacher": {
+                                "type": "string",
+                                "example": "Formato digitado é inválido"
+                              }
+                            }
+                          },
+                          "body": {
+                            "type": "object",
+                            "properties": {
+                              "idQuestion": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
+                              },
+                              "response_text": {
+                                "type": "string",
+                                "example": "Este campo é obrigatório"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "403": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "errors": {
+                            "type": "object",
+                            "properties": {
+                              "default": {
+                                "type": "string",
+                                "example": "Este professor não é instrutor neste curso."
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "errors": {
+                        "type": "object",
+                        "properties": {
+                          "default": {
+                            "type": "string",
+                            "example": "Pergunta não encontrado. / Professor não encontrado ou este usuário não é um professor."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "$ref": "#/components/responses/internalServerErrorCreate"
             }
           }
         }
       }
     }
   }
+}
