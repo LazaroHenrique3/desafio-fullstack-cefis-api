@@ -1,5 +1,5 @@
 import { Course } from '@prisma/client'
-import { ICourseRepository } from '../interfaces/ICourseRepository'
+import { ICourseRepository, IGetCourseByIdResponse } from '../interfaces/ICourseRepository'
 import { prisma } from '../database/PrismaClientInstance'
 import { CustomError } from '../errors/CustomErrors'
 
@@ -68,7 +68,7 @@ class CourseRepository implements ICourseRepository {
         }
     }
 
-    public async getById(idCourse: number): Promise<Course | null | CustomError> {
+    public async getById(idCourse: number): Promise<IGetCourseByIdResponse | null | CustomError> {
         try {
             const course = await prisma.course.findUnique({
                 where: {
