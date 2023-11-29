@@ -1,21 +1,34 @@
 import { Question } from '@prisma/client'
-import { IQuestionRepository } from '../interfaces/IQuestionRepository'
+import { IQuestionCreateResponse, IQuestionRepository } from '../interfaces/IQuestionRepository'
 import { prisma } from '../database/PrismaClientInstance'
 import { CustomError } from '../errors/CustomErrors'
 
 class QuestionRepository implements IQuestionRepository {
 
-    public async create(questionText: string, idCourse: number, idStudent: number): Promise<Question | CustomError> {
+    public async create(questionText: string, idCourse: number, idStudent: number): Promise<IQuestionCreateResponse | CustomError> {
         try {
+            //Criando a pergunta e já retornando o name do estudante
             const newQuestion = await prisma.question.create({
                 data: {
                     question_text: questionText,
                     idCourse,
                     idStudent
+                },
+                include: {
+                    student: {
+                        select: {
+                            name: true
+                        }
+                    }
                 }
             })
 
-            return newQuestion
+            const formattedResponse: IQuestionCreateResponse = {
+                ...newQuestion,
+                Response: []
+            }
+
+            return formattedResponse
         } catch (error) {
             console.error(error)
             return new CustomError('Erro ao criar registro.')
