@@ -38,7 +38,7 @@ Esta é uma API server desenvolvida como parte do desafio técnico FullStack pro
 
 Renomeie o `.env.example` para `.env` e adicione os valores necessários.
 
-Foi utilizado o SQLite no ambiente no desenvolvimento, sendo assim o `env` ficará semelhante a isso:
+Foi utilizado o SQLite no ambiente no desenvolvimento, sendo assim o `.env` ficará semelhante a isso:
  ```sh
    DATABASE_URL="file:.././database.sqlite"
    PROVIDER_NAME="sqlite"
