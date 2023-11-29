@@ -822,7 +822,7 @@
                   "title": "Contabilidade Básica e Avançada",
                   "duration": 1,
                   "teacher": {
-                    "name":"John Doe"
+                    "name": "John Doe"
                   }
                 },
                 {
@@ -831,7 +831,7 @@
                   "title": "Gestão Empresarial",
                   "duration": 1,
                   "teacher": {
-                    "name":"Jane Doe"
+                    "name": "Jane Doe"
                   }
                 }
               ]
@@ -876,7 +876,7 @@
                   "idStudent": 1,
                   "question_text": "Não entendi o que o professor...",
                   "student": {
-                    "name":"Jane Doe"
+                    "name": "Jane Doe"
                   }
                 },
                 {
@@ -885,7 +885,7 @@
                   "idStudent": 1,
                   "question_text": "O que significa aquela parte...",
                   "student": {
-                    "name":"John Doe"
+                    "name": "John Doe"
                   }
                 }
               ]
@@ -1396,12 +1396,31 @@
                     },
                     "question_text": {
                       "type": "string"
+                    },
+                    "student": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "example": {
+                        "name": "Rafael"
+                      }
+                    },
+                    "Response": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      },
+                      "example": []
                     }
                   },
                   "example": {
                     "idCourse": 1,
                     "idStudent": 1,
-                    "question_text": "Não entendi o que o professor..."
+                    "question_text": "Não entendi o que o professor...",
+                    "Response": []
                   }
                 }
               }
