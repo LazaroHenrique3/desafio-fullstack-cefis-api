@@ -17,7 +17,7 @@ app.use(cors())
 app.use(Express.json())
 app.use(routes)
 
-//Documentation
+//Documentation 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 const PORT = process.env.PORT ? process.env.PORT : 5000
