@@ -43,6 +43,17 @@ Foi utilizado o SQLite no ambiente no desenvolvimento, sendo assim o `.env` fica
    DATABASE_URL="file:.././database.sqlite"
    PORT=5000
    ```
+Caso tenha optado por usar o SQLite altere o provider do prisma, da seguinte forma:
+1 - Acesso a pasta `prisma` que esta na raiz do projeto
+2 - Acesso o `schema.prisma` dentro da pasta
+3 - Altere o provider do datasource para `sqlite` deve ficar assim
+
+```js
+  datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+ ```
 
 4 - Inicialize o banco com o prisma 
  ```sh
