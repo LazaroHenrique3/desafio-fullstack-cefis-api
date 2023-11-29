@@ -4,6 +4,9 @@
 
 Esta é uma API server desenvolvida como parte do desafio técnico FullStack proposto pela CEFIS. Os endpoints comtemplam todas as funcionalidades requeridas para o teste de nível Júnior.
 
+### 👀 Aplicações que está consumindo esta API 
+* **Frontend: <a href="https://github.com/LazaroHenrique3/desafio-fullstack-cefis-frontend">Desafio FullStack - FrontEnd</a>**
+
 ## 🛠️ Construído com
 
 * **TypeScript**
