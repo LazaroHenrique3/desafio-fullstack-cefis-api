@@ -30,6 +30,13 @@ class QuestionRepository implements IQuestionRepository {
                 where: {
                     idCourse
                 },
+                include: {
+                    student: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                },
                 orderBy: {
                     id: orderBy
                 }
