@@ -35,8 +35,8 @@ model Question {
   id            Int        @id @default(autoincrement())
   idCourse      Int
   idStudent     Int
-  course        Course     @relation(fields: [idCourse], references: [id])
-  student       User       @relation(fields: [idStudent], references: [id])
+  course        Course     @relation(fields: [idCourse], references: [id], onDelete: Cascade)
+  student       User       @relation(fields: [idStudent], references: [id], onDelete: Cascade)
   question_text String
   Response      Response[]
 
@@ -46,7 +46,7 @@ model Question {
 model Response {
   id            Int      @id @default(autoincrement())
   idQuestion    Int
-  question      Question @relation(fields: [idQuestion], references: [id])
+  question      Question @relation(fields: [idQuestion], references: [id], onDelete: Cascade)
   response_text String
 
   @@map("response")
