@@ -21,18 +21,26 @@ class UserRepository implements IUserRepository {
         }
     }
 
-    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<User[] | CustomError> {
+    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc', typeUser: 'STUDENT' | 'TEACHER' | ''): Promise<User[] | CustomError> {
         try {
+            //Tipando o condition
+            const whereCondition: { name: { contains: string }, role?: 'STUDENT' | 'TEACHER' } = {
+                name: {
+                    contains: filter
+                }
+            }
+            
+            //Pesquisa especifica por role
+            if (typeUser !== '') {
+                whereCondition.role = typeUser
+            }
+
             const users = await prisma.user.findMany({
                 skip: (page - 1) * limit,
                 take: limit,
-                where: {
-                    name: {
-                        contains: filter
-                    }
-                },
+                where: whereCondition,
                 orderBy: {
-                    name: orderBy
+                    id: orderBy
                 }
             })
 
