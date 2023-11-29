@@ -28,10 +28,12 @@ Esta é uma API server desenvolvida como parte do desafio técnico FullStack pro
    git clone https://github.com/LazaroHenrique3/desafio-fullstack-cefis-api.git
    cd desafio-fullstack-cefis-api
    ```
+
 2 - Instalar dependências
  ```sh
    npm install
    ```
+
 3 - Adicione as variáveis de ambiente
 
 Renomeie o `.env.example` para `.env` e adicione os valores necessários.
