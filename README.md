@@ -19,7 +19,7 @@ Esta é uma API server desenvolvida como parte do desafio técnico FullStack pro
 
 ### Requisitos
 
-* **Node.js 16.17^
+* **Node.js 16.17^**
 
 ### Instruções
 
