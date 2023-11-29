@@ -13,7 +13,8 @@ interface IQueryProps {
     page?: number,
     limit?: number,
     filter?: string,
-    orderBy?: 'asc' | 'desc'
+    orderBy?: 'asc' | 'desc',
+    typeUser?: 'STUDENT' | 'TEACHER' | ''
 }
 
 //Midleware
@@ -22,12 +23,13 @@ export const listUserValidation = validation((getSchema) => ({
         page: yup.number().optional().moreThan(0),
         limit: yup.number().optional().moreThan(0),
         filter: yup.string().optional(),
-        orderBy: yup.string().oneOf(['asc', 'desc']).optional()
+        orderBy: yup.string().oneOf(['asc', 'desc']).optional(),
+        typeUser: yup.string().oneOf(['STUDENT', 'TEACHER', '']).optional()
     }))
 }))
 
 export const listUser = async (request: Request<{}, {}, {}, IQueryProps>, response: Response) => {
-    const { page, limit, filter, orderBy } = request.query
+    const { page, limit, filter, orderBy, typeUser } = request.query
 
     const listUsers = new ListUserService(new UserRepository())
     const countUsers = new CountUserService(new UserRepository())
@@ -36,7 +38,8 @@ export const listUser = async (request: Request<{}, {}, {}, IQueryProps>, respon
         Number(page) || DefaultQueryParams.DEFAULT_PAGE, 
         Number(limit) || DefaultQueryParams.DEFAULT_LIMIT, 
         filter || DefaultQueryParams.DEFAULT_FILTER, 
-        orderBy as 'asc' | 'desc' || DefaultQueryParams.DEFAULT_ORDER_BY
+        orderBy as 'asc' | 'desc' || DefaultQueryParams.DEFAULT_ORDER_BY,
+        typeUser as 'STUDENT' | 'TEACHER' || ''
     )
 
     const resultCountUsers = await  countUsers.execute(
