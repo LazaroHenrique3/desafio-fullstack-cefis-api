@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">Desafio técnico FullStack CEFIS - Backend</h1>
+  <h1 align="center">Desafio técnico FullStack CEFIS - BackEnd</h1>
 </p>
 
 Esta é uma API server desenvolvida como parte do desafio técnico FullStack proposto pela CEFIS. Os endpoints comtemplam todas as funcionalidades requeridas para o teste de nível Júnior.
