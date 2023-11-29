@@ -20,4 +20,4 @@ Esta é uma API server desenvolvida como parte do desafio técnico FullStack pro
 
 ### Instruções
 
-1 - Clone o projeto
+1 - Clone o projeto https://github.com/LazaroHenrique3/desafio-fullstack-cefis-api.git
