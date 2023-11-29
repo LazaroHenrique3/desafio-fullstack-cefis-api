@@ -167,7 +167,7 @@
             "$ref": "#/components/responses/notFound"
           },
           "200": {
-            "$ref": "#/components/responses/course"
+            "$ref": "#/components/responses/courseById"
           }
         }
       }
@@ -558,6 +558,144 @@
           }
         }
       },
+      "courseById": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "teacherId": {
+                  "type": "number"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "duration": {
+                  "type": "number"
+                },
+                "teacher": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "Question": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "idCourse": {
+                        "type": "number"
+                      },
+                      "idStudent": {
+                        "type": "number"
+                      },
+                      "question_text": {
+                        "type": "string"
+                      },
+                      "student": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "Response": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "idQuestion": {
+                              "type": "number"
+                            },
+                            "response_text": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "example": {
+                "id": 2,
+                "teacherId": 3,
+                "title": "Curso de Fiscal",
+                "duration": 6,
+                "teacher": {
+                  "name": "John Doe Updated"
+                },
+                "Question": [
+                  {
+                    "id": 1,
+                    "idCourse": 2,
+                    "idStudent": 2,
+                    "question_text": "Não entendi o que o professor quis dizer quando blá, blá, blá...",
+                    "student": {
+                      "name": "Julio Silva"
+                    },
+                    "Response": [
+                      {
+                        "id": 1,
+                        "idQuestion": 1,
+                        "response_text": "Em termos gerais quis dizer que..."
+                      },
+                      {
+                        "id": 2,
+                        "idQuestion": 1,
+                        "response_text": "Em termos gerais quis dizer que..."
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "idCourse": 2,
+                    "idStudent": 4,
+                    "question_text": "Não entendi o que o professor quis dizer quando blá, blá, blá...",
+                    "student": {
+                      "name": "Roberto Silva"
+                    },
+                    "Response": []
+                  },
+                  {
+                    "id": 3,
+                    "idCourse": 2,
+                    "idStudent": 4,
+                    "question_text": "Não entendi o que o professor quis dizer quando blá, blá, blá...",
+                    "student": {
+                      "name": "Roberto Silva"
+                    },
+                    "Response": []
+                  },
+                  {
+                    "id": 4,
+                    "idCourse": 2,
+                    "idStudent": 2,
+                    "question_text": "Não entendi o que o professor...",
+                    "student": {
+                      "name": "Julio Silva"
+                    },
+                    "Response": []
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
       "question": {
         "content": {
           "application/json": {
@@ -666,6 +804,14 @@
                   },
                   "duration": {
                     "type": "number"
+                  },
+                  "teacher": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               },
@@ -674,13 +820,19 @@
                   "id": 1,
                   "teacherId": 1,
                   "title": "Contabilidade Básica e Avançada",
-                  "duration": 1
+                  "duration": 1,
+                  "teacher": {
+                    "name":"John Doe"
+                  }
                 },
                 {
                   "id": 2,
-                  "teacherId": 1,
+                  "teacherId": 2,
                   "title": "Gestão Empresarial",
-                  "duration": 1
+                  "duration": 1,
+                  "teacher": {
+                    "name":"Jane Doe"
+                  }
                 }
               ]
             }
@@ -706,6 +858,14 @@
                   },
                   "question_text": {
                     "type": "string"
+                  },
+                  "student": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               },
@@ -714,13 +874,19 @@
                   "id": 1,
                   "idCourse": 1,
                   "idStudent": 1,
-                  "question_text": "Não entendi o que o professor..."
+                  "question_text": "Não entendi o que o professor...",
+                  "student": {
+                    "name":"Jane Doe"
+                  }
                 },
                 {
                   "id": 2,
                   "idCourse": 1,
                   "idStudent": 1,
-                  "question_text": "O que significa aquela parte..."
+                  "question_text": "O que significa aquela parte...",
+                  "student": {
+                    "name":"John Doe"
+                  }
                 }
               ]
             }
