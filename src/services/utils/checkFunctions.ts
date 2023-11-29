@@ -1,6 +1,6 @@
 import { prisma } from '../../database/PrismaClientInstance'
 
-export const checkIfUserExists = async (idUser: number) => {
+export const checkIfUserExists = async (idUser: number): Promise<boolean> => {
     try {
         const userExists = await prisma.user.findUnique({
             where: {
@@ -15,7 +15,22 @@ export const checkIfUserExists = async (idUser: number) => {
     }
 }
 
-export const checkIfCourseExists = async (idCourse: number) => {
+export const checkUserLinkedToCourses = async (idUser: number): Promise<boolean> => {
+    try {
+        const isLinkedToCourses = await prisma.course.findFirst({
+            where: {
+                teacherId: idUser
+            }
+        })
+
+        return isLinkedToCourses !== null
+    } catch (error) {
+        console.error('Erro ao verificar relação com cursos.', error)
+        return false
+    }
+}
+
+export const checkIfCourseExists = async (idCourse: number): Promise<boolean> => {
     try {
         const recordExists = await prisma.course.findUnique({
             where: {
@@ -30,7 +45,7 @@ export const checkIfCourseExists = async (idCourse: number) => {
     }
 }
 
-export const checkIfQuestionExists = async (idQuestion: number) => {
+export const checkIfQuestionExists = async (idQuestion: number): Promise<boolean> => {
     try {
         const recordExists = await prisma.question.findUnique({
             where: {
@@ -45,7 +60,7 @@ export const checkIfQuestionExists = async (idQuestion: number) => {
     }
 }
 
-export const checkIfResponseExists = async (idResponse: number) => {
+export const checkIfResponseExists = async (idResponse: number): Promise<boolean> => {
     try {
         const recordExists = await prisma.response.findUnique({
             where: {
@@ -60,7 +75,7 @@ export const checkIfResponseExists = async (idResponse: number) => {
     }
 }
 
-export const checkIfUserExistsAndIsStudent = async (idStudent: number) => {
+export const checkIfUserExistsAndIsStudent = async (idStudent: number): Promise<boolean> => {
     try {
         const isStudent = await prisma.user.findUnique({
             where: {
@@ -75,7 +90,7 @@ export const checkIfUserExistsAndIsStudent = async (idStudent: number) => {
     }
 }
 
-export const checkIfUserExistsAndIsTeacher = async (idStudent: number) => {
+export const checkIfUserExistsAndIsTeacher = async (idStudent: number): Promise<boolean> => {
     try {
         const isStudent = await prisma.user.findUnique({
             where: {
@@ -90,7 +105,7 @@ export const checkIfUserExistsAndIsTeacher = async (idStudent: number) => {
     }
 }
 
-export const checkIfStudentReachedQuestionLimitForCourse = async (idStudent: number, idCourse: number, limitOfQuestions: number) => {
+export const checkIfStudentReachedQuestionLimitForCourse = async (idStudent: number, idCourse: number, limitOfQuestions: number): Promise<boolean> => {
     try {
         const totalOfQuestions = await prisma.question.count({
             where: {
@@ -106,7 +121,7 @@ export const checkIfStudentReachedQuestionLimitForCourse = async (idStudent: num
     }
 }
 
-export const checkIfThisTeacherOwnsTheCourse = async (idTeacher: number, idQuestion: number) => {
+export const checkIfThisTeacherOwnsTheCourse = async (idTeacher: number, idQuestion: number): Promise<boolean> => {
     try {
         //Buscando a questão e o curso vinculado a ela
         const question = await prisma.question.findUnique({
