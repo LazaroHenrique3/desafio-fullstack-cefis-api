@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx ts-node-dev ./src/server.ts"
+    "dev": "npx ts-node-dev ./src/server.ts",
+    "build": "prisma generate && next build"
   },
   "dependencies": {
     "@prisma/client": "^5.5.2",
