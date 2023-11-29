@@ -33,8 +33,15 @@ class CourseRepository implements ICourseRepository {
                     }
                 },
                 orderBy: {
-                    title: orderBy
-                }
+                    id: orderBy
+                },
+                include: {
+                    teacher: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                },
             })
 
             return courses
@@ -66,8 +73,26 @@ class CourseRepository implements ICourseRepository {
             const course = await prisma.course.findUnique({
                 where: {
                     id: idCourse
-                }
+                },
+                include: {
+                    teacher: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                    Question: {
+                        include: {
+                            student: {
+                                select: {
+                                    name: true,
+                                },
+                            },
+                            Response: true,
+                        },
+                    },
+                },
             })
+
 
             return course
         } catch (error) {
