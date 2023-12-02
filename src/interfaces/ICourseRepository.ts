@@ -1,17 +1,17 @@
-import { Course, Question } from '@prisma/client'
+import { Course } from '@prisma/client'
 import { CustomError } from '../errors/CustomErrors'
 
-export interface IGetCourseByIdResponse extends Course {
+export interface IListCourseResponse extends Course {
     teacher: {
         name: string
     }
-    Question: Question[]
 }
 
+/* Representa o coontrato que o repository deve seguir no momento de sua implementação independente do ORM */
 export interface ICourseRepository {
-    list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<Course[] | CustomError>
+    list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<IListCourseResponse[] | CustomError>
     count(filter: string): Promise<number | CustomError>
-    getById(idCourse: number): Promise<IGetCourseByIdResponse | null | CustomError>
+    getById(idCourse: number): Promise<IListCourseResponse | null | CustomError>
     create(title: string, duration: number, teacherId: number): Promise<Course  | CustomError>
     update(idCourse: number, title: string, duration: number): Promise<Course | CustomError>
     delete(idCourse: number): Promise<void | CustomError>

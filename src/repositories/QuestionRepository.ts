@@ -1,11 +1,11 @@
-import { Question } from '@prisma/client'
-import { IQuestionCreateResponse, IQuestionRepository } from '../interfaces/IQuestionRepository'
+import { IQuestionRepository, IQuestionWithResponses } from '../interfaces/IQuestionRepository'
 import { prisma } from '../database/PrismaClientInstance'
 import { CustomError } from '../errors/CustomErrors'
 
+//Implementando as funções de CRUD seguindo o que foi acordado na interfaçe, ou seja desde que fosse seguido a interface poderia ser feito com qualquer tecnologia
 class QuestionRepository implements IQuestionRepository {
 
-    public async create(questionText: string, idCourse: number, idStudent: number): Promise<IQuestionCreateResponse | CustomError> {
+    public async create(questionText: string, idCourse: number, idStudent: number): Promise<IQuestionWithResponses | CustomError> {
         try {
             //Criando a pergunta e já retornando o name do estudante
             const newQuestion = await prisma.question.create({
@@ -23,7 +23,7 @@ class QuestionRepository implements IQuestionRepository {
                 }
             })
 
-            const formattedResponse: IQuestionCreateResponse = {
+            const formattedResponse: IQuestionWithResponses = {
                 ...newQuestion,
                 Response: []
             }
@@ -35,7 +35,7 @@ class QuestionRepository implements IQuestionRepository {
         }
     }
 
-    public async listByIdCourse(page: number, limit: number, orderBy: 'asc' | 'desc', idCourse: number): Promise<Question[] | CustomError> {
+    public async listByIdCourse(page: number, limit: number, orderBy: 'asc' | 'desc', idCourse: number): Promise<IQuestionWithResponses[] | CustomError> {
         try {
             const questions = await prisma.question.findMany({
                 skip: (page - 1) * limit,
@@ -49,6 +49,7 @@ class QuestionRepository implements IQuestionRepository {
                             name: true,
                         },
                     },
+                    Response: true
                 },
                 orderBy: {
                     id: orderBy
