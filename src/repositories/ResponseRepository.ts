@@ -3,6 +3,7 @@ import { IResponseRepository } from '../interfaces/IResponseRepository'
 import { prisma } from '../database/PrismaClientInstance'
 import { CustomError } from '../errors/CustomErrors'
 
+//Implementando as funções de CRUD seguindo o que foi acordado na interfaçe, ou seja desde que fosse seguido a interface poderia ser feito com qualquer tecnologia
 class ResponseRepository implements IResponseRepository {
 
     public async create(responseText: string, idQuestion: number): Promise<Response | CustomError> {

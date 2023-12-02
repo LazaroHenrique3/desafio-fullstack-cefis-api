@@ -1,8 +1,9 @@
 import { Course } from '@prisma/client'
-import { ICourseRepository, IGetCourseByIdResponse } from '../interfaces/ICourseRepository'
+import { ICourseRepository, IListCourseResponse } from '../interfaces/ICourseRepository'
 import { prisma } from '../database/PrismaClientInstance'
 import { CustomError } from '../errors/CustomErrors'
 
+//Implementando as funções de CRUD seguindo o que foi acordado na interfaçe, ou seja desde que fosse seguido a interface poderia ser feito com qualquer tecnologia
 class CourseRepository implements ICourseRepository {
 
     public async create(title: string, duration: number, teacherId: number): Promise<Course | CustomError> {
@@ -22,7 +23,7 @@ class CourseRepository implements ICourseRepository {
         }
     }
 
-    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<Course[] | CustomError> {
+    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<IListCourseResponse[] | CustomError> {
         try {
             const courses = await prisma.course.findMany({
                 skip: (page - 1) * limit,
@@ -68,7 +69,7 @@ class CourseRepository implements ICourseRepository {
         }
     }
 
-    public async getById(idCourse: number): Promise<IGetCourseByIdResponse | null | CustomError> {
+    public async getById(idCourse: number): Promise<IListCourseResponse | null | CustomError> {
         try {
             const course = await prisma.course.findUnique({
                 where: {
