@@ -92,6 +92,21 @@ class UserRepository implements IUserRepository {
         }
     }
 
+    public async getByEmail(email: string): Promise<User | null | CustomError> {
+        try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    email: email
+                }
+            })
+
+            return user
+        } catch (error) {
+            console.error(error)
+            return new CustomError('Erro ao buscar registro.')
+        }
+    }
+
     public async delete(idUser: number): Promise<void | CustomError> {
         try {
             await prisma.user.delete({
