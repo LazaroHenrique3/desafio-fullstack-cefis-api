@@ -1,16 +1,18 @@
-import { User } from '@prisma/client'
-import { IUserRepository } from '../interfaces/IUserRepository'
+import { IUserRepository, IUserWithoutPassword } from '../interfaces/IUserRepository'
 import { prisma } from '../database/PrismaClientInstance'
 import { CustomError } from '../errors/CustomErrors'
+import { User } from '@prisma/client'
 
 //Implementando as funções de CRUD seguindo o que foi acordado na interfaçe, ou seja desde que fosse seguido a interface poderia ser feito com qualquer tecnologia
 class UserRepository implements IUserRepository {
 
-    public async create(name: string, role: 'STUDENT' | 'TEACHER'): Promise<User | CustomError> {
+    public async create(name: string, email: string, password: string, role: 'STUDENT' | 'TEACHER'): Promise<User | CustomError> {
         try {
             const newUser = await prisma.user.create({
                 data: {
                     name,
+                    email,
+                    password,
                     role
                 }
             })
@@ -22,7 +24,7 @@ class UserRepository implements IUserRepository {
         }
     }
 
-    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc', typeUser: 'STUDENT' | 'TEACHER' | ''): Promise<User[] | CustomError> {
+    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc', typeUser: 'STUDENT' | 'TEACHER' | ''): Promise<IUserWithoutPassword[] | CustomError> {
         try {
             //Tipando o condition
             const whereCondition: { name: { contains: string }, role?: 'STUDENT' | 'TEACHER' } = {
@@ -39,6 +41,12 @@ class UserRepository implements IUserRepository {
             const users = await prisma.user.findMany({
                 skip: (page - 1) * limit,
                 take: limit,
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    role: true
+                },
                 where: whereCondition,
                 orderBy: {
                     id: orderBy
@@ -99,7 +107,7 @@ class UserRepository implements IUserRepository {
         }
     }
 
-    public async update(idUser: number, name: string): Promise<User | CustomError> {
+    public async update(idUser: number, name: string, email: string, password: string): Promise<User | CustomError> {
         try {
             const updatedUser = await prisma.user.update({
                 where: {
@@ -107,6 +115,8 @@ class UserRepository implements IUserRepository {
                 },
                 data: {
                     name,
+                    email,
+                    password
                 }
             })
 
@@ -117,6 +127,24 @@ class UserRepository implements IUserRepository {
         }
     }
 
+    public async updateWithoutPassword(idUser: number, name: string, email: string): Promise<User | CustomError> {
+        try {
+            const updatedUser = await prisma.user.update({
+                where: {
+                    id: idUser
+                },
+                data: {
+                    name,
+                    email,
+                }
+            })
+
+            return updatedUser
+        } catch (error) {
+            console.error(error)
+            return new CustomError('Erro ao atualizar registro.')
+        }
+    }
 }
 
 export { UserRepository }
