@@ -4,6 +4,7 @@ import { UserController } from '../controller/user'
 
 const userRoutes = Router()
 
+userRoutes.post('/signInUser', UserController.signInUserValidation,  UserController.signInUser)
 userRoutes.post('/createUser', UserController.createUserValidation,  UserController.createUser)
 userRoutes.get('/listUser', UserController.listUserValidation, UserController.listUser)
 userRoutes.get('/listUser/:idUser', UserController.getUserByIdValidation, UserController.getUserById)
