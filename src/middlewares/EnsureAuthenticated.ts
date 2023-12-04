@@ -13,7 +13,7 @@ export const ensureAuthenticated: RequestHandler = async (req, res, next) => {
         })
     }
 
-    //Verificando se o token é do tipo corrento
+    //Verificando se o token é do tipo correto
     const [type, token] = authorization.split(' ')
 
     if (type !== 'Bearer') {
