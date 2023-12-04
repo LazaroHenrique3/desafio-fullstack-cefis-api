@@ -22,15 +22,17 @@ export const updateUserValidation = validation((getSchema) => ({
     })),
     body: getSchema<IBodyProps>(yup.object().shape({
         name: yup.string().required(),
+        email: yup.string().required().email().min(5).max(100),
+        password: yup.string().optional().min(6),
     }))
 }))
 
 export const updateUser = async (request: Request<IParamProps, {}, IBodyProps>, response: Response) => {
-    const { name } = request.body
+    const { name, email, password } = request.body
     const { idUser } = request.params
 
     const updateUser = new UpdateUserService(new UserRepository())
-    const resultUpdateUser = await updateUser.execute(Number(idUser), String(name))
+    const resultUpdateUser = await updateUser.execute(Number(idUser), String(name), String(email), password || '')
 
     if(resultUpdateUser instanceof CustomError){
         return response.status(resultUpdateUser.status).json({
