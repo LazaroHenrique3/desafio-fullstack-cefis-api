@@ -30,6 +30,39 @@ export const checkUserLinkedToCourses = async (idUser: number): Promise<boolean>
     }
 }
 
+export const checkIfUserEmailAlreadyExists = async (email: string): Promise<boolean> => {
+    try {
+        const emailAlreadyExists = await prisma.user.findUnique({
+            where: {
+                email: email
+            }
+        })
+
+        return emailAlreadyExists !== null
+    } catch (error) {
+        console.error('Erro ao verificar duplicidade de email.', error)
+        return true
+    }
+}
+
+export const checkIfUserEmailAlreadyExistsInUpdate = async (email: string, idUser: number): Promise<boolean> => {
+    try {
+        const emailAlreadyExists = await prisma.user.findUnique({
+            where: {
+                email: email,
+                NOT: {
+                    id: idUser
+                }
+            },
+        })
+
+        return emailAlreadyExists !== null
+    } catch (error) {
+        console.error('Erro ao verificar duplicidade de email.', error)
+        return true
+    }
+}
+
 export const checkIfCourseExists = async (idCourse: number): Promise<boolean> => {
     try {
         const recordExists = await prisma.course.findUnique({
