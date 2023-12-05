@@ -15,20 +15,23 @@ class SignInUserService {
 
         //Comparando as senhas usando o bcrypt
         const passwordMatch = await PasswordCrypto.verifyPassword(password, user.password)
-        if(!passwordMatch) {
+        if (!passwordMatch) {
             return new CustomError('Email e/ou senha inválidos.', 401)
         } else {
             //Criando o token JWT que será devolvido na resposta ao client
-            const accessToken = JWTServices.sign({uid: user.id, typeUser: user.role})
+            const accessToken = JWTServices.sign({ uid: user.id, typeUser: user.role })
             if (accessToken === 'JWT_SECRET_NOT_FOUND') {
                 return new CustomError('Houve um erro gerar o token de acesso.', 500)
             }
 
             return {
-                name: user.name,
-                email: user.email,
-                typeUser: user.role,
-                accessToken: accessToken
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    typeUser: user.role,
+                },
+                token: accessToken
             }
 
         }
