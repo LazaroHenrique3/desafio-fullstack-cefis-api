@@ -78,6 +78,21 @@ class QuestionRepository implements IQuestionRepository {
         }
     }
 
+    public async delete(idQuestion: number): Promise<void | null | Error> {
+        try {
+            await prisma.question.delete({
+                where: {
+                    id: idQuestion
+                }
+            })
+
+
+        } catch (error) {
+            console.error(error)
+            return new Error('Erro ao excluir registro.')
+        }
+    }
+
 }
 
 export { QuestionRepository }

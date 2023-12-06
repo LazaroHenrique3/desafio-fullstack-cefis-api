@@ -57,6 +57,21 @@ class ResponseRepository implements IResponseRepository {
         }
     }
 
+    public async delete(idResponse: number): Promise<void | null | Error> {
+        try {
+            await prisma.response.delete({
+                where: {
+                    id: idResponse
+                }
+            })
+
+
+        } catch (error) {
+            console.error(error)
+            return new Error('Erro ao excluir registro.')
+        }
+    }
+
 }
 
 export { ResponseRepository }
