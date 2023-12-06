@@ -7,8 +7,9 @@ const userRoutes = Router()
 
 //Rota pública
 userRoutes.post('/signInUser', UserController.signInUserValidation,  UserController.signInUser)
+userRoutes.post('/createUser', UserController.createUserValidation,  UserController.createUser)
+
 //Rotas privadas
-userRoutes.post('/createUser', ensureAuthenticated, UserController.createUserValidation,  UserController.createUser)
 userRoutes.get('/listUser', ensureAuthenticated, UserController.listUserValidation, UserController.listUser)
 userRoutes.get('/listUser/:idUser', ensureAuthenticated, UserController.getUserByIdValidation, UserController.getUserById)
 userRoutes.delete('/deleteUser/:idUser', ensureAuthenticated, UserController.deleteUserValidation, UserController.deleteUser)
