@@ -32,7 +32,7 @@ class UserRepository implements IUserRepository {
                     contains: filter
                 }
             }
-            
+
             //Pesquisa especifica por role
             if (typeUser !== '') {
                 whereCondition.role = typeUser
@@ -60,14 +60,22 @@ class UserRepository implements IUserRepository {
         }
     }
 
-    public async count(filter: string): Promise<number | CustomError> {
+    public async count(filter: string, typeUser: 'STUDENT' | 'TEACHER' | ''): Promise<number | CustomError> {
         try {
-            const countOfUsers = await prisma.user.count({
-                where: {
-                    name: {
-                        contains: filter
-                    }
+            //Tipando o condition
+            const whereCondition: { name: { contains: string }, role?: 'STUDENT' | 'TEACHER' } = {
+                name: {
+                    contains: filter
                 }
+            }
+
+            //Pesquisa especifica por role
+            if (typeUser !== '') {
+                whereCondition.role = typeUser
+            }
+
+            const countOfUsers = await prisma.user.count({
+                where: whereCondition
             })
 
             return countOfUsers

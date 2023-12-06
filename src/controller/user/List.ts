@@ -43,7 +43,8 @@ export const listUser = async (request: Request<{}, {}, {}, IQueryProps>, respon
     )
 
     const resultCountUsers = await  countUsers.execute(
-        filter || DefaultQueryParams.DEFAULT_FILTER
+        filter || DefaultQueryParams.DEFAULT_FILTER,
+        typeUser as 'STUDENT' | 'TEACHER' || ''
     )
 
     if(resultUsers instanceof CustomError){
