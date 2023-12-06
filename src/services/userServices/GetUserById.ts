@@ -8,7 +8,7 @@ class GetUserByIdService {
         const user = await this.UserService.getById(idUser)
 
         //Caso for erro eu retorno normalmente
-        if (user instanceof CustomError) return user
+        if (user instanceof CustomError || user === null) return user
 
         //Caso contrário eu preciso remover a propriedade de password no retorno
         //Optei fazer aqui, pois considero regra de negócio
