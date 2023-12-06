@@ -1,7 +1,7 @@
 import { CustomError } from '../../errors/CustomErrors'
 import { PasswordCrypto } from '../../externalServices/PasswordCrypto'
 import { IUserRepository } from '../../interfaces/IUserRepository'
-import { checkIfUserEmailAlreadyExists } from '../utils/checkFunctions'
+import { checkIfUserEmailAlreadyExists } from '../utils/checkUserFunctions'
 
 class CreateUserService {
     constructor(private UserRepository: IUserRepository) { }

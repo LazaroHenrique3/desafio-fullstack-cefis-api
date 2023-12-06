@@ -1,5 +1,6 @@
 import { ICourseRepository } from '../../interfaces/ICourseRepository'
-import { checkIfCourseExists, checkIfThisTeacherOwnsTheCourseByIdTeacher } from '../utils/checkFunctions'
+import { checkIfThisTeacherOwnsTheCourseByIdTeacher } from '../utils/checkUserFunctions'
+import { checkIfCourseExists } from '../utils/checkCourseFunctions'
 import { CustomError } from '../../errors/CustomErrors'
 
 class DeleteCourseService {

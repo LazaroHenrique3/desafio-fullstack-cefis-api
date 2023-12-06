@@ -67,54 +67,6 @@ export const checkIfUserEmailAlreadyExistsInUpdate = async (email: string, idUse
     }
 }
 
-//Faz a verificação se o curso já existe no banco de dados
-export const checkIfCourseExists = async (idCourse: number): Promise<boolean> => {
-    try {
-        const recordExists = await prisma.course.findUnique({
-            where: {
-                id: idCourse
-            }
-        })
-
-        return recordExists !== null
-    } catch (error) {
-        console.error('Erro ao verificar existencia do curso.', error)
-        return false
-    }
-}
-
-//Faz a verificação se a pergunta já existe no banco de dados
-export const checkIfQuestionExists = async (idQuestion: number): Promise<boolean> => {
-    try {
-        const recordExists = await prisma.question.findUnique({
-            where: {
-                id: idQuestion
-            }
-        })
-
-        return recordExists !== null
-    } catch (error) {
-        console.error('Erro ao verificar existencia da questão.', error)
-        return false
-    }
-}
-
-//Faz a verificação se a resposta já existe no banco de dados
-export const checkIfResponseExists = async (idResponse: number): Promise<boolean> => {
-    try {
-        const recordExists = await prisma.response.findUnique({
-            where: {
-                id: idResponse
-            }
-        })
-
-        return recordExists !== null
-    } catch (error) {
-        console.error('Erro ao verificar existencia da resposta.', error)
-        return false
-    }
-}
-
 //Faz a verificação se o usuario já existe no banco de dados e é um estudante, usado principalmente para criar perguntas
 export const checkIfUserExistsAndIsStudent = async (idStudent: number): Promise<boolean> => {
     try {

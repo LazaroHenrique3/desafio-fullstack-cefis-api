@@ -2,7 +2,7 @@ import { IUserRepository } from '../../interfaces/IUserRepository'
 import {
     checkIfUserEmailAlreadyExistsInUpdate,
     checkIfUserExists
-} from '../utils/checkFunctions'
+} from '../utils/checkUserFunctions'
 import { CustomError } from '../../errors/CustomErrors'
 import { PasswordCrypto } from '../../externalServices/PasswordCrypto'
 import { User } from '@prisma/client'

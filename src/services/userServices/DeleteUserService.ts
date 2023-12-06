@@ -1,5 +1,5 @@
 import { IUserRepository } from '../../interfaces/IUserRepository'
-import { checkIfUserExists, checkUserLinkedToCourses } from '../utils/checkFunctions'
+import { checkIfUserExists, checkUserLinkedToCourses } from '../utils/checkUserFunctions'
 import { CustomError } from '../../errors/CustomErrors'
 
 class DeleteUserService {

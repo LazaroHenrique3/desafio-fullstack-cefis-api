@@ -1,9 +1,9 @@
 import { IQuestionRepository } from '../../interfaces/IQuestionRepository'
 import { 
-    checkIfCourseExists,
     checkIfStudentReachedQuestionLimitForCourse, 
     checkIfUserExistsAndIsStudent 
-} from '../utils/checkFunctions'
+} from '../utils/checkUserFunctions'
+import { checkIfCourseExists } from '../utils/checkCourseFunctions'
 import { CustomError } from '../../errors/CustomErrors'
 
 const DEFAULT_LIMIT_OF_QUESTIONS = 2

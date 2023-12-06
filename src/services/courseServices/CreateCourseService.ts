@@ -1,5 +1,5 @@
 import { ICourseRepository } from '../../interfaces/ICourseRepository'
-import { checkIfUserExistsAndIsTeacher } from '../utils/checkFunctions'
+import { checkIfUserExistsAndIsTeacher } from '../utils/checkUserFunctions'
 import { CustomError } from '../../errors/CustomErrors'
 
 class CreateCourseService {

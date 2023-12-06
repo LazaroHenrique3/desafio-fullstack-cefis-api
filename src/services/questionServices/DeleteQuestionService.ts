@@ -1,6 +1,7 @@
-import { CustomError } from '../../errors/CustomErrors'
 import { IQuestionRepository } from '../../interfaces/IQuestionRepository'
-import { checkIfQuestionExists, checkIfThisUserIsTheAuthorOfTheQuestion } from '../utils/checkFunctions'
+import { checkIfQuestionExists } from '../utils/checkQuestionFunctions'
+import { checkIfThisUserIsTheAuthorOfTheQuestion } from '../utils/checkUserFunctions'
+import { CustomError } from '../../errors/CustomErrors'
 
 class DeleteQuestionService {
     constructor(private QuestionService: IQuestionRepository) { }

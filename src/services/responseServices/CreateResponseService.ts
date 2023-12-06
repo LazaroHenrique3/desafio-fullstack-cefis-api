@@ -1,9 +1,9 @@
 import { IResponseRepository } from '../../interfaces/IResponseRepository'
 import { 
-    checkIfQuestionExists, 
     checkIfThisTeacherOwnsTheCourseByIdQuestion, 
     checkIfUserExistsAndIsTeacher 
-} from '../utils/checkFunctions'
+} from '../utils/checkUserFunctions'
+import { checkIfQuestionExists } from '../utils/checkQuestionFunctions'
 import { CustomError } from '../../errors/CustomErrors'
 
 class CreateResponseService {

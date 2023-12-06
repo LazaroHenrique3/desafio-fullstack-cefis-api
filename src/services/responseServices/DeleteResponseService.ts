@@ -1,6 +1,7 @@
-import { CustomError } from '../../errors/CustomErrors'
 import { IResponseRepository } from '../../interfaces/IResponseRepository'
-import { checkIfResponseExists, checkIfThisUserIsTheAuthorOfTheResponse } from '../utils/checkFunctions'
+import { checkIfResponseExists } from '../utils/checkResponseFunctions'
+import { checkIfThisUserIsTheAuthorOfTheResponse } from '../utils/checkUserFunctions'
+import { CustomError } from '../../errors/CustomErrors'
 
 class DeleteResponseService {
     constructor(private ResponseService: IResponseRepository) { }
