@@ -13,7 +13,8 @@ interface IQueryProps {
     page?: number,
     limit?: number,
     filter?: string,
-    orderBy?: 'asc' | 'desc'
+    orderBy?: 'asc' | 'desc',
+    teacherId?: number //Listar por professor
 }
 
 //Midleware
@@ -22,12 +23,13 @@ export const listCourseValidation = validation((getSchema) => ({
         page: yup.number().optional().moreThan(0),
         limit: yup.number().optional().moreThan(0),
         filter: yup.string().optional(),
-        orderBy: yup.string().oneOf(['asc', 'desc']).optional()
+        orderBy: yup.string().oneOf(['asc', 'desc']).optional(),
+        teacherId: yup.number().nullable().moreThan(0).optional()
     }))
 }))
 
 export const listCourse = async (request: Request<{}, {}, {}, IQueryProps>, response: Response) => {
-    const { page, limit, filter, orderBy } = request.query
+    const { page, limit, filter, orderBy, teacherId } = request.query
 
     const listCourses = new ListCourseService(new CourseRepository())
     const countCourses = new CountCourseService(new CourseRepository())
@@ -36,11 +38,13 @@ export const listCourse = async (request: Request<{}, {}, {}, IQueryProps>, resp
         Number(page) || DefaultQueryParams.DEFAULT_PAGE, 
         Number(limit) || DefaultQueryParams.DEFAULT_LIMIT, 
         filter || DefaultQueryParams.DEFAULT_FILTER, 
-        orderBy as 'asc' | 'desc' || DefaultQueryParams.DEFAULT_ORDER_BY
+        orderBy as 'asc' | 'desc' || DefaultQueryParams.DEFAULT_ORDER_BY,
+        Number(teacherId) || null
     )
 
     const resultCountCourses = await  countCourses.execute(
-        filter || DefaultQueryParams.DEFAULT_FILTER
+        filter || DefaultQueryParams.DEFAULT_FILTER,
+        Number(teacherId) || null
     )
 
     if(resultCourses instanceof CustomError){

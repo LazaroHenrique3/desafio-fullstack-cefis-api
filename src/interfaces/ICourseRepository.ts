@@ -9,8 +9,8 @@ export interface IListCourseResponse extends Course {
 
 /* Representa o coontrato que o repository deve seguir no momento de sua implementação independente do ORM */
 export interface ICourseRepository {
-    list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<IListCourseResponse[] | CustomError>
-    count(filter: string): Promise<number | CustomError>
+    list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc', teacherId: number | null): Promise<IListCourseResponse[] | CustomError>
+    count(filter: string, teacherId: number | null): Promise<number | CustomError>
     getById(idCourse: number): Promise<IListCourseResponse | null | CustomError>
     create(title: string, duration: number, teacherId: number): Promise<Course  | CustomError>
     update(idCourse: number, title: string, duration: number): Promise<Course | CustomError>

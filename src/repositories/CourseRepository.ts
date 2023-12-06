@@ -23,16 +23,24 @@ class CourseRepository implements ICourseRepository {
         }
     }
 
-    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc'): Promise<IListCourseResponse[] | CustomError> {
+    public async list(page: number, limit: number, filter: string, orderBy: 'asc' | 'desc', teacherId: number | null): Promise<IListCourseResponse[] | CustomError> {
         try {
+            //Tipando o condition
+            const whereCondition: { title: { contains: string }, teacherId?: number } = {
+                title: {
+                    contains: filter
+                }
+            }
+
+            //Pesquisa especifica por professor
+            if (teacherId !== null) {
+                whereCondition.teacherId = teacherId
+            }
+
             const courses = await prisma.course.findMany({
                 skip: (page - 1) * limit,
                 take: limit,
-                where: {
-                    title: {
-                        contains: filter
-                    }
-                },
+                where: whereCondition,
                 orderBy: {
                     id: orderBy
                 },
@@ -52,14 +60,22 @@ class CourseRepository implements ICourseRepository {
         }
     }
 
-    public async count(filter: string): Promise<number | CustomError> {
+    public async count(filter: string, teacherId: number | null): Promise<number | CustomError> {
         try {
-            const countOfCourses = await prisma.course.count({
-                where: {
-                    title: {
-                        contains: filter
-                    }
+            //Tipando o condition
+            const whereCondition: { title: { contains: string }, teacherId?: number } = {
+                title: {
+                    contains: filter
                 }
+            }
+
+            //Pesquisa especifica por professor
+            if (teacherId !== null) {
+                whereCondition.teacherId = teacherId
+            }
+
+            const countOfCourses = await prisma.course.count({
+                where: whereCondition
             })
 
             return countOfCourses
