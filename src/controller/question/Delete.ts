@@ -20,14 +20,17 @@ export const deleteQuestionValidation = validation((getSchema) => ({
 export const deleteQuestion = async (request: Request<IParamProps>, response: Response) => {
     const { idQuestion } = request.params
 
-    const deleteQuestion = new DeleteQuestionService(new QuestionRepository())
-    const resultDeleteQuestion = await deleteQuestion.execute(Number(idQuestion))
+    //Como esta rota é privada se chegou até aqui significa que passou pela autenticação e foi inserido o id do user extraído do token para dentro dos headers
+    const idUserToken: number = (request.headers.idUser) ? Number(request.headers.idUser) : 0
 
-    if(resultDeleteQuestion instanceof CustomError){
+    const deleteQuestion = new DeleteQuestionService(new QuestionRepository())
+    const resultDeleteQuestion = await deleteQuestion.execute(Number(idQuestion), idUserToken)
+
+    if (resultDeleteQuestion instanceof CustomError) {
         return response.status(resultDeleteQuestion.status).json({
             errors: { default: resultDeleteQuestion.message }
         })
-    } 
+    }
 
     return response.status(204).send()
 }

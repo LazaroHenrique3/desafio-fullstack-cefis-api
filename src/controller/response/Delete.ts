@@ -20,14 +20,17 @@ export const deleteResponseValidation = validation((getSchema) => ({
 export const deleteResponse = async (request: Request<IParamProps>, response: Response) => {
     const { idResponse } = request.params
 
-    const deleteResponse = new DeleteResponseService(new ResponseRepository())
-    const resultDeleteResponse = await deleteResponse.execute(Number(idResponse))
+    //Como esta rota é privada se chegou até aqui significa que passou pela autenticação e foi inserido o id do user extraído do token para dentro dos headers
+    const idUserToken: number = (request.headers.idUser) ? Number(request.headers.idUser) : 0
 
-    if(resultDeleteResponse instanceof CustomError){
+    const deleteResponse = new DeleteResponseService(new ResponseRepository())
+    const resultDeleteResponse = await deleteResponse.execute(Number(idResponse), idUserToken)
+
+    if (resultDeleteResponse instanceof CustomError) {
         return response.status(resultDeleteResponse.status).json({
             errors: { default: resultDeleteResponse.message }
         })
-    } 
+    }
 
     return response.status(204).send()
 }

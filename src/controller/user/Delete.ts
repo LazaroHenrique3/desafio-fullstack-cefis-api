@@ -20,14 +20,17 @@ export const deleteUserValidation = validation((getSchema) => ({
 export const deleteUser = async (request: Request<IParamProps>, response: Response) => {
     const { idUser } = request.params
 
-    const deleteUser = new DeleteUserService(new UserRepository())
-    const resultDeleteUser = await deleteUser.execute(Number(idUser))
+    //Como esta rota é privada se chegou até aqui significa que passou pela autenticação e foi inserido o id do user extraído do token para dentro dos headers
+    const idUserToken: number = (request.headers.idUser) ? Number(request.headers.idUser) : 0
 
-    if(resultDeleteUser instanceof CustomError){
+    const deleteUser = new DeleteUserService(new UserRepository())
+    const resultDeleteUser = await deleteUser.execute(Number(idUser), idUserToken)
+
+    if (resultDeleteUser instanceof CustomError) {
         return response.status(resultDeleteUser.status).json({
             errors: { default: resultDeleteUser.message }
         })
-    } 
+    }
 
     return response.status(204).send()
 }

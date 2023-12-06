@@ -20,8 +20,11 @@ export const deleteCourseValidation = validation((getSchema) => ({
 export const deleteCourse = async (request: Request<IParamProps>, response: Response) => {
     const { idCourse } = request.params
 
+    //Como esta rota é privada se chegou até aqui significa que passou pela autenticação e foi inserido o id do user extraído do token para dentro dos headers
+    const idUserToken: number = (request.headers.idUser) ? Number(request.headers.idUser) : 0
+
     const deleteCourse = new DeleteCourseService(new CourseRepository())
-    const resultDeleteCourse = await deleteCourse.execute(Number(idCourse))
+    const resultDeleteCourse = await deleteCourse.execute(Number(idCourse), idUserToken)
 
     if(resultDeleteCourse instanceof CustomError){
         return response.status(resultDeleteCourse.status).json({

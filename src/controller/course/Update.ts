@@ -29,8 +29,11 @@ export const updateCourse = async (request: Request<IParamProps, {}, IBodyProps>
     const { title, duration } = request.body
     const { idCourse } = request.params
 
+    //Como esta rota é privada se chegou até aqui significa que passou pela autenticação e foi inserido o id do user extraído do token para dentro dos headers
+    const idUserToken: number = (request.headers.idUser) ? Number(request.headers.idUser) : 0
+
     const updateCourse = new UpdateCourseService(new CourseRepository())
-    const resultUpdateCourse = await updateCourse.execute(Number(idCourse), String(title), Number(duration))
+    const resultUpdateCourse = await updateCourse.execute(Number(idCourse), String(title), Number(duration), idUserToken)
 
     if(resultUpdateCourse instanceof CustomError){
         return response.status(resultUpdateCourse.status).json({

@@ -31,8 +31,11 @@ export const updateUser = async (request: Request<IParamProps, {}, IBodyProps>, 
     const { name, email, password } = request.body
     const { idUser } = request.params
 
+    //Como esta rota é privada se chegou até aqui significa que passou pela autenticação e foi inserido o id do user extraído do token para dentro dos headers
+    const idUserToken: number = (request.headers.idUser) ? Number(request.headers.idUser) : 0
+
     const updateUser = new UpdateUserService(new UserRepository())
-    const resultUpdateUser = await updateUser.execute(Number(idUser), String(name), String(email), password || '')
+    const resultUpdateUser = await updateUser.execute(Number(idUser), String(name), String(email), password || '', idUserToken)
 
     if(resultUpdateUser instanceof CustomError){
         return response.status(resultUpdateUser.status).json({

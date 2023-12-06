@@ -1,7 +1,7 @@
 import { IResponseRepository } from '../../interfaces/IResponseRepository'
 import { 
     checkIfQuestionExists, 
-    checkIfThisTeacherOwnsTheCourse, 
+    checkIfThisTeacherOwnsTheCourseByIdQuestion, 
     checkIfUserExistsAndIsTeacher 
 } from '../utils/checkFunctions'
 import { CustomError } from '../../errors/CustomErrors'
@@ -23,7 +23,7 @@ class CreateResponseService {
         }
 
         //Verificar se esse professor é dono do curso
-        const isOwner = await checkIfThisTeacherOwnsTheCourse(idTeacher, idQuestion)
+        const isOwner = await checkIfThisTeacherOwnsTheCourseByIdQuestion(idTeacher, idQuestion)
         if(!isOwner) {
             return new CustomError('Este professor não é instrutor neste curso.', 403)
         }

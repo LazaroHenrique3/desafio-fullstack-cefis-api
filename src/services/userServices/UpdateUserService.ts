@@ -1,7 +1,7 @@
 import { IUserRepository } from '../../interfaces/IUserRepository'
-import { 
-    checkIfUserEmailAlreadyExistsInUpdate, 
-    checkIfUserExists 
+import {
+    checkIfUserEmailAlreadyExistsInUpdate,
+    checkIfUserExists
 } from '../utils/checkFunctions'
 import { CustomError } from '../../errors/CustomErrors'
 import { PasswordCrypto } from '../../externalServices/PasswordCrypto'
@@ -10,11 +10,16 @@ import { User } from '@prisma/client'
 class UpdateUserService {
     constructor(private UserRepository: IUserRepository) { }
 
-    public async execute(idUser: number, name: string, email: string, password: string) {
+    public async execute(idUser: number, name: string, email: string, password: string, idUserToken: number) {
         //Verificando se o user existe
         const userExists = await checkIfUserExists(idUser)
         if (!userExists) {
             return new CustomError('Usuário não encontrado.', 404)
+        }
+
+        //Verificando se foi o próprio usuario que solicitou a alteração, um usuário não pode alterar outro
+        if (idUser !== idUserToken) {
+            return new CustomError('Não tem permissão para esse tipo de ação.', 401)
         }
 
         //Verificando se o email já foi cadastrado
@@ -26,7 +31,7 @@ class UpdateUserService {
         let updatedUser: User | CustomError
 
         //Significa que foi passado senha para alteração
-        if (password !== '' &&  password !== undefined) {
+        if (password !== '' && password !== undefined) {
             //Criptografando a senha utilizando bcrypt
             const hashedPassword = await PasswordCrypto.hashPassword(password)
 
