@@ -3,7 +3,7 @@ import { prisma } from '../database/PrismaClientInstance'
 import { CustomError } from '../errors/CustomErrors'
 import { User } from '@prisma/client'
 
-//Implementando as funções de CRUD seguindo o que foi acordado na interfaçe, ou seja desde que fosse seguido a interface poderia ser feito com qualquer tecnologia
+//Implementando as funções de CRUD seguindo o que foi acordado na interfaçe, ou seja desde que fosse seguido a interface poderia ser feito com qualquer tecnologia disponivel
 class UserRepository implements IUserRepository {
 
     public async create(name: string, email: string, password: string, role: 'STUDENT' | 'TEACHER'): Promise<User | CustomError> {
