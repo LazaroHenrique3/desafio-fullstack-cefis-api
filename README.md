@@ -42,6 +42,7 @@ Foi utilizado o SQLite no ambiente no desenvolvimento, sendo assim o `.env` fica
  ```sh
    DATABASE_URL="file:.././database.sqlite"
    PORT=5000
+   JWT_SECRET=coloqueaquialgumhashouqualquerstring
    ```
 Caso tenha optado por usar o SQLite altere o provider do prisma, da seguinte forma:
 1 - Acesso a pasta `prisma` que esta na raiz do projeto
