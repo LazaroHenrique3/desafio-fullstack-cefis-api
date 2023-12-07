@@ -22,8 +22,11 @@ export const createCourseValidation = validation((getSchema) => ({
 export const createCourse = async (request: Request<{}, {}, IBodyProps>, response: Response) => {
     const { title, duration, teacherId } = request.body
 
+    //Como esta rota é privada se chegou até aqui significa que passou pela autenticação e foi inserido o id do user extraído do token para dentro dos headers
+    const idUserToken: number = (request.headers.idUser) ? Number(request.headers.idUser) : 0
+
     const createCourse = new CreateCourseService(new CourseRepository())
-    const resultCourse = await createCourse.execute(String(title), Number(duration), Number(teacherId))
+    const resultCourse = await createCourse.execute(String(title), Number(duration), Number(teacherId), idUserToken)
 
     if (resultCourse instanceof CustomError) {
         return response.status(resultCourse.status).json({
